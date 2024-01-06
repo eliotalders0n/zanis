@@ -31,25 +31,6 @@ function Landing(props) {
         <div style={{ backgroundColor: "black", color: "white", }}>
             <Head />
             <Container fluid style={{ backgroundColor: "black", margin: "5vh 0" }}>
-
-            {/* <Box overflow="hidden" w="100%" h="30vh">
-      <Box
-        display="flex"
-        transition="transform 0.5s ease-in-out"
-        transform={`translateX(-${currentIndex * (100 / images.length)}%)`}
-      >
-        {images.map((src, index) => (
-          <Image
-            key={index}
-            src={src}
-            alt={`carousel image ${index + 1}`}
-            borderRadius="30px"
-            boxSize="100%"
-            objectFit="cover"
-          />
-        ))}
-      </Box>
-    </Box> */}
                 <Stack direction="horizontal" gap={4} style={{ overflowX: "auto" }}>
                     <div>
                         <Image src="assets/center1.jpeg" style={{ borderRadius: "30px", width: "30vh" }} alt="center cards" />
