@@ -114,8 +114,8 @@ function Feed(props) {
             />
             <hr/>
             <Row>
-                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/like.png"/>  Like</Button></Col>
-                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/share.png"/> Share</Button></Col>
+                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/like.png" alt="like"/>  Like</Button></Col>
+                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/share.png" alt="share button"/> Share</Button></Col>
             </Row>
           </div>
 
@@ -164,8 +164,8 @@ function Feed(props) {
             />
              <hr/>
             <Row>
-                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/like.png"/>  Like</Button></Col>
-                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/share.png"/> Share</Button></Col>
+                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/like.png" alt="like"/>  Like</Button></Col>
+                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/share.png" alt="like"/> Share</Button></Col>
             </Row>
           </div>
 
@@ -214,8 +214,8 @@ function Feed(props) {
             />
              <hr/>
             <Row>
-                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/like.png"/>  Like</Button></Col>
-                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/share.png"/> Share</Button></Col>
+                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/like.png" alt="like"/>  Like</Button></Col>
+                <Col><Button variant="outline-light" size="sm" style={{width:"100%", border:"none"}}><img src="assets/share.png" alt="like"/> Share</Button></Col>
             </Row>
           </div>
         </Col>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import {
     Row,
     Col,
@@ -16,21 +16,12 @@ import Head from "../template/head";
 
 function Landing(props) {
 
-    const images = ["assets/center1.jpeg", "assets/center2.jpeg", "assets/center3.jpeg", "assets/center4.jpeg", "assets/center5.jpeg", "assets/center6.jpeg", "assets/center7.jpeg"];
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 2000); // Adjust the interval time as needed
-
-        return () => clearInterval(interval);
-    }, [images.length]);
-
     return (
         <div style={{ backgroundColor: "black", color: "white", }}>
-            <Head />
-            <Container fluid style={{ backgroundColor: "black", margin: "5vh 0" }}>
+           
+            {/* <Container fluid style={{ backgroundColor: "black", margin: "5vh 0", zIndex: "1", marginBottom: "100px" }}> */}
+
+            <Container fluid style={{ backgroundColor: "black", padding: "12vh 0"}}>
                 <Stack direction="horizontal" gap={4} style={{ overflowX: "auto" }}>
                     <div>
                         <Image src="assets/center1.jpeg" style={{ borderRadius: "30px", width: "30vh" }} alt="center cards" />
@@ -195,8 +186,8 @@ function Landing(props) {
                             </Card.Text>
                         </Card>
                     </Col>
-
                 </Row>
+                <Head />
             </Container>
         </div>
     );
