@@ -9,19 +9,11 @@ import {
     Badge,
     Card,
 } from "react-bootstrap";
-import Head from "../template/head";
-// import { Box } from "@chakra-ui/react";
-
-// import { Link } from "react-router-dom";
 
 function Landing(props) {
 
     return (
-        <div style={{ backgroundColor: "black", color: "white", }}>
-           
-            {/* <Container fluid style={{ backgroundColor: "black", margin: "5vh 0", zIndex: "1", marginBottom: "100px" }}> */}
-
-            <Container fluid style={{ backgroundColor: "black", padding: "12vh 0"}}>
+        <div style={{backgroundColor: "black", color:"white", height: "auto", padding: "12vh 0"}}>
                 <Stack direction="horizontal" gap={4} style={{ overflowX: "auto" }}>
                     <div>
                         <Image src="assets/center1.jpeg" style={{ borderRadius: "30px", width: "30vh" }} alt="center cards" />
@@ -80,7 +72,7 @@ function Landing(props) {
 
                 <Row>
                     <Col style={{ height: " 45vh", marginBottom: "5%" }}>
-                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "50vh", border: "none", backgroundColor: "black" }}>
+                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "38vh", border: "none", backgroundColor: "black" }}>
                             <Card.Body style={{ backgroundImage: 'url("assets/center1.jpeg")', color: "white", backgroundSize: "cover", borderRadius: "18px" }}>
                                 <Card.Title><b>North Western soccer league about to kick off</b></Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted"><Badge bg="danger">Sports</Badge></Card.Subtitle>
@@ -98,7 +90,7 @@ function Landing(props) {
                     </Col>
 
                     <Col style={{ height: " 45vh", marginBottom: "5%" }}>
-                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "50vh", border: "none", backgroundColor: "black" }}>
+                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "38vh", border: "none", backgroundColor: "black" }}>
                             <Card.Body style={{ backgroundImage: 'url("assets/center1.jpeg")', color: "white", backgroundSize: "cover", borderRadius: "18px" }}>
                                 <Card.Title><b>North Western soccer league about to kick off</b></Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted"><Badge bg="danger">Sports</Badge></Card.Subtitle>
@@ -116,7 +108,7 @@ function Landing(props) {
                     </Col>
 
                     <Col style={{ height: " 45vh", marginBottom: "5%" }}>
-                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "50vh", border: "none", backgroundColor: "black" }}>
+                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "38vh", border: "none", backgroundColor: "black" }}>
                             <Card.Body style={{ backgroundImage: 'url("assets/center1.jpeg")', color: "white", backgroundSize: "cover", borderRadius: "18px" }}>
                                 <Card.Title><b>North Western soccer league about to kick off</b></Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted"><Badge bg="danger">Sports</Badge></Card.Subtitle>
@@ -134,7 +126,7 @@ function Landing(props) {
                     </Col>
 
                     <Col style={{ height: " 45vh", marginBottom: "5%" }}>
-                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "50vh", border: "none", backgroundColor: "black" }}>
+                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "38vh", border: "none", backgroundColor: "black" }}>
                             <Card.Body style={{ backgroundImage: 'url("assets/center1.jpeg")', color: "white", backgroundSize: "cover", borderRadius: "18px" }}>
                                 <Card.Title><b>North Western soccer league about to kick off</b></Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted"><Badge bg="danger">Sports</Badge></Card.Subtitle>
@@ -152,7 +144,7 @@ function Landing(props) {
                     </Col>
 
                     <Col style={{ height: " 45vh", marginBottom: "5%" }}>
-                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "50vh", border: "none", backgroundColor: "black" }}>
+                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "38vh", border: "none", backgroundColor: "black" }}>
                             <Card.Body style={{ backgroundImage: 'url("assets/center1.jpeg")', color: "white", backgroundSize: "cover", borderRadius: "18px" }}>
                                 <Card.Title><b>North Western soccer league about to kick off</b></Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted"><Badge bg="danger">Sports</Badge></Card.Subtitle>
@@ -170,7 +162,7 @@ function Landing(props) {
                     </Col>
 
                     <Col style={{ height: "45vh", marginBottom: "5%" }}>
-                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "50vh", border: "none", backgroundColor: "black" }}>
+                        <Card flex={{ base: 'auto', md: 1 }} style={{ height: "100%", minWidth: "38vh", border: "none", backgroundColor: "black" }}>
                             <Card.Body style={{ backgroundImage: 'url("assets/center1.jpeg")', color: "white", backgroundSize: "cover", borderRadius: "18px" }}>
                                 <Card.Title><b>North Western soccer league about to kick off</b></Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted"><Badge bg="danger">Sports</Badge></Card.Subtitle>
@@ -187,8 +179,6 @@ function Landing(props) {
                         </Card>
                     </Col>
                 </Row>
-                <Head />
-            </Container>
         </div>
     );
 }

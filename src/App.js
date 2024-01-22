@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 // User Interface
-// import Router from "./routes";
-import LoginRoutes from "./loginroutes";
 import firebase from "./firebase";
-
+import Header from "./comps/template/head";
+import Landing from "./comps/pages/landingPage";
+import ReelCard from "./comps/pages/reels";
+import Profile from "./comps/pages/profile";
+import { Routes } from "react-router-dom";
+import Navigation from "./comps/template/navigation";
 const App = () => {
   const [state, setstate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,21 +36,45 @@ const App = () => {
 
   return (
     <>
-      {!state && <LoginRoutes />}
-      {/* {state && <Router />} */}
-      {/* {isLoading && (
-        <Container fluid className="d-flex justify-content-center">
-          <Row md={1} xs={1} className="g4">
-            <Col>
-              <div className="loading-overlay">
-                <Spinner animation="grow" style={{width: "10vh", height :"10vh", marginTop: "30vh"}} role="status" variant="dark">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      )} */}
+      <Header />
+      <Router>
+        <Routes>
+          <Route path="/home" element={<Landing />} />
+          <Route path="/reels" element={<ReelCard />} />
+          <Route path="/profile"element={<Profile />} />
+        </Routes>
+        <Navigation />
+      </Router>
+      
+      {/* <Nav
+      variant="tabs"
+      justify
+      defaultActiveKey="/home"
+      className="fixed-bottom"
+      style={{ backgroundColor: "black" }}
+    >
+        <Nav.Item>
+          <Nav.Link as={Link} to="/home" style={{ color: "green" }}>
+            <i className="bi bi-house"></i>
+            <br />
+            Home
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link as={Link} to="/reels" style={{ color: "green" }}>
+            <i className="bi bi-tv"></i>
+            <br />
+            Reels
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link as={Link} to="/profile" style={{ color: "green" }}>
+            <i className="bi bi-person"></i>
+            <br />
+            Profile
+          </Nav.Link>
+        </Nav.Item>
+      </Nav> */}
     </>
   );
 };
