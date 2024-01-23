@@ -18,7 +18,7 @@ const Profile = ({ title, date, postedBy, imageUrl }) => {
         </Button>
       </Stack>
 
-      <Stack style={{ backgroundColor: "", margin: "0 30%" }}>
+      <Stack style={{ backgroundColor: "", margin: "0 35%" }}>
         <Image src="assets/profile.png" />
         <br />
         <p className="text-center">John Mutalepwa Kangwa</p>

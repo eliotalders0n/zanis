@@ -10,6 +10,7 @@ import Profile from "./comps/pages/profile";
 import { Routes } from "react-router-dom";
 import Navigation from "./comps/template/navigation";
 import Ministries from "./comps/pages/ministires";
+import Story from "./comps/pages/story";
 const App = () => {
   const [state, setstate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/reels" element={<ReelCard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/ministries" element={<Ministries />} />
+          <Route path="/story" element={<Story />} />
         </Routes>
         <Navigation />
       </Router>
