@@ -147,6 +147,7 @@ function Landing(props) {
               border: "none",
               backgroundColor: "black",
             }}
+            onClick={() => navigate("/story")}
           >
             <Card.Body
               style={{
@@ -204,6 +205,8 @@ function Landing(props) {
               border: "none",
               backgroundColor: "black",
             }}
+
+            onClick={() => navigate("/story")}
           >
             <Card.Body
               style={{
@@ -261,6 +264,7 @@ function Landing(props) {
               border: "none",
               backgroundColor: "black",
             }}
+            onClick={() => navigate("/story")}
           >
             <Card.Body
               style={{
@@ -318,6 +322,7 @@ function Landing(props) {
               border: "none",
               backgroundColor: "black",
             }}
+            onClick={() => navigate("/story")}
           >
             <Card.Body
               style={{
