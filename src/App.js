@@ -9,6 +9,7 @@ import ReelCard from "./comps/pages/reels";
 import Profile from "./comps/pages/profile";
 import { Routes } from "react-router-dom";
 import Navigation from "./comps/template/navigation";
+import Ministries from "./comps/pages/ministires";
 const App = () => {
   const [state, setstate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,40 +42,11 @@ const App = () => {
         <Routes>
           <Route path="/home" element={<Landing />} />
           <Route path="/reels" element={<ReelCard />} />
-          <Route path="/profile"element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/ministries" element={<Ministries />} />
         </Routes>
         <Navigation />
       </Router>
-      
-      {/* <Nav
-      variant="tabs"
-      justify
-      defaultActiveKey="/home"
-      className="fixed-bottom"
-      style={{ backgroundColor: "black" }}
-    >
-        <Nav.Item>
-          <Nav.Link as={Link} to="/home" style={{ color: "green" }}>
-            <i className="bi bi-house"></i>
-            <br />
-            Home
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link as={Link} to="/reels" style={{ color: "green" }}>
-            <i className="bi bi-tv"></i>
-            <br />
-            Reels
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link as={Link} to="/profile" style={{ color: "green" }}>
-            <i className="bi bi-person"></i>
-            <br />
-            Profile
-          </Nav.Link>
-        </Nav.Item>
-      </Nav> */}
     </>
   );
 };
