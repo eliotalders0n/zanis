@@ -13,12 +13,6 @@ const Header  = () => {
     )
 }  
 
-const container = {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'rgb(13,85,12)',
-}
 
 const logo = {
         width: "30vh",
