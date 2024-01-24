@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Badge, Stack, Image, Button } from "react-bootstrap";
+import { Badge, Stack} from "react-bootstrap";
 
 const Ministries = ({ title, date, postedBy, imageUrl }) => {
   return (

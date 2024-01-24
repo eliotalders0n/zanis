@@ -20,8 +20,7 @@ function Landing(props) {
       style={{
         backgroundColor: "black",
         color: "white",
-        paddingTop: "12vh",
-        paddingBottom: "12vh",
+        padding: "12vh 3vh 12vh 3vh",
       }}
     >
       {/* <Stack>
@@ -151,14 +150,14 @@ function Landing(props) {
           >
             <Card.Body
               style={{
-                backgroundImage: 'url("assets/center1.jpeg")',
+                backgroundImage: 'url("assets/news/russia.jpg")',
                 color: "white",
                 backgroundSize: "cover",
                 borderRadius: "18px",
               }}
             >
-              <Card.Title>
-                <b>North Western soccer league about to kick off</b>
+              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
+                <b>Russia fires 40 War Heads to Saudi region</b>
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 <Badge bg="danger">Sports</Badge>
@@ -172,7 +171,7 @@ function Landing(props) {
                 margin: "5px 5px",
               }}
             >
-              Castle United scores winning goal during Cosafa Cup Finals
+              Russia has violently responded to the Saudi gunship that killed at least 70,000 civilians last week on the 13th of January.
             </Card.Text>
             <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
               <Image
@@ -210,13 +209,71 @@ function Landing(props) {
           >
             <Card.Body
               style={{
-                backgroundImage: 'url("assets/center1.jpeg")',
+                backgroundImage: 'url("assets/news/chef.jpg")',
                 color: "white",
                 backgroundSize: "cover",
                 borderRadius: "18px",
               }}
             >
-              <Card.Title>
+              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
+                <b>Chef187 Nominated for Grammy</b>
+              </Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                <Badge bg="danger">Sports</Badge>
+              </Card.Subtitle>
+            </Card.Body>
+            <Card.Text
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                fontSize: "14px",
+                margin: "5px 5px",
+              }}
+            >
+              Chef187 has been nominate for this years annual Grammy celebrations where he will competing with the likes of Davido and Pompi.
+            </Card.Text>
+            <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
+              <Image
+                src="assets/ministries/labour.png"
+                alt=""
+                style={{ width: "3vh" }}
+                roundedCircle
+              />
+              Labour and social security
+            </Stack>
+            <Card.Text
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                fontSize: "10px",
+                margin: "2px 5px",
+              }}
+            >
+              28 November 2023 . 2.4 Millions Readers
+            </Card.Text>
+          </Card>
+        </Col>
+
+        <Col style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}>
+          <Card
+            flex={{ base: "auto", md: 1 }}
+            style={{
+              height: "100%",
+              minWidth: "38vh",
+              border: "none",
+              backgroundColor: "black",
+            }}
+            onClick={() => navigate("/story")}
+          >
+            <Card.Body
+              style={{
+                backgroundImage: 'url("assets/news/zanaco.jpg")',
+                color: "white",
+                backgroundSize: "cover",
+                borderRadius: "18px",
+              }}
+            >
+              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
                 <b>North Western soccer league about to kick off</b>
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
@@ -274,65 +331,7 @@ function Landing(props) {
                 borderRadius: "18px",
               }}
             >
-              <Card.Title>
-                <b>North Western soccer league about to kick off</b>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                <Badge bg="danger">Sports</Badge>
-              </Card.Subtitle>
-            </Card.Body>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "14px",
-                margin: "5px 5px",
-              }}
-            >
-              Castle United scores winning goal during Cosafa Cup Finals
-            </Card.Text>
-            <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
-              <Image
-                src="assets/ministries/labour.png"
-                alt=""
-                style={{ width: "3vh" }}
-                roundedCircle
-              />
-              Labour and social security
-            </Stack>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "10px",
-                margin: "2px 5px",
-              }}
-            >
-              28 November 2023 . 2.4 Millions Readers
-            </Card.Text>
-          </Card>
-        </Col>
-
-        <Col style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}>
-          <Card
-            flex={{ base: "auto", md: 1 }}
-            style={{
-              height: "100%",
-              minWidth: "38vh",
-              border: "none",
-              backgroundColor: "black",
-            }}
-            onClick={() => navigate("/story")}
-          >
-            <Card.Body
-              style={{
-                backgroundImage: 'url("assets/center1.jpeg")',
-                color: "white",
-                backgroundSize: "cover",
-                borderRadius: "18px",
-              }}
-            >
-              <Card.Title>
+              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
                 <b>North Western soccer league about to kick off</b>
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
@@ -389,7 +388,7 @@ function Landing(props) {
                 borderRadius: "18px",
               }}
             >
-              <Card.Title>
+              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
                 <b>North Western soccer league about to kick off</b>
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
@@ -446,7 +445,7 @@ function Landing(props) {
                 borderRadius: "18px",
               }}
             >
-              <Card.Title>
+              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
                 <b>North Western soccer league about to kick off</b>
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">

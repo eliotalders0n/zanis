@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Badge, Stack, Image, Button, Form, InputGroup, Col, Modal, Row } from "react-bootstrap";
+import { Card, Stack, Image, Button, Form, InputGroup, Col, Modal, Row } from "react-bootstrap";
 import { useState } from "react";
 import {
     TwitterShareButton,
@@ -65,7 +65,7 @@ const Story = ({}) => {
             28 November 2023 . 2.4 Millions Readers
           </Card.Text>
           <br />
-          <Image src="assets/center1.jpeg" alt="central province" rounded />
+          <Image src="assets/news/labour.jpg" alt="labour" rounded />
           <Card.Text
             style={{
               backgroundColor: "black",

@@ -1,14 +1,14 @@
 import React from "react";
-import { Card, Badge, Stack, Image, Button } from "react-bootstrap";
+import { Card, Stack, Image, Button, Container } from "react-bootstrap";
 
 const Profile = ({ title, date, postedBy, imageUrl }) => {
   return (
-    <div
+    <Container
       style={{
         backgroundColor: "black",
         color: "white",
         height: "auto",
-        padding: "12vh 0",
+        padding: "12vh 2vh 12vh 2vh",
       }}
     >
       <Stack direction="horizontal" gap={3}>
@@ -105,7 +105,7 @@ const Profile = ({ title, date, postedBy, imageUrl }) => {
           <hr/>
         </div>
       </Stack>
-    </div>
+    </Container>
   );
 };
 export default Profile;

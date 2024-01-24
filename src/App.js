@@ -41,6 +41,7 @@ const App = () => {
       <Header />
       <Router>
         <Routes>
+          <Route path="" element={<Landing />} />
           <Route path="/home" element={<Landing />} />
           <Route path="/reels" element={<ReelCard />} />
           <Route path="/profile" element={<Profile />} />
