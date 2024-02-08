@@ -10,10 +10,48 @@ import {
   Card,
   Container,
   Nav,
+  InputGroup,
+  Form,
 } from "react-bootstrap";
+import {useState, useEffect} from 'react';
+import firebase from "./../../firebase";
 
 function Landing(props) {
   const navigate = useNavigate();
+  const [articles, setArticles] = useState([]);
+  const [authors, setAuthors] = useState({});
+
+  useEffect(() => {
+    // Load articles from Firestore on component mount
+    const unsubscribeArticles = firebase
+      .firestore()
+      .collection("Articles")
+      .onSnapshot((snapshot) => {
+        const articles = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setArticles(articles);
+      });
+
+    // Load authors from Firestore
+    const unsubscribeAuthors = firebase
+      .firestore()
+      .collection("Users")
+      .onSnapshot((snapshot) => {
+        const authorsData = {};
+        snapshot.docs.forEach((doc) => {
+          authorsData[doc.id] = doc.data();
+        });
+        setAuthors(authorsData);
+      });
+
+    return () => {
+      unsubscribeArticles();
+      unsubscribeAuthors();
+    };
+  }, []);
+
   return (
     <Container
       fluid
@@ -23,15 +61,35 @@ function Landing(props) {
         padding: "12vh 3vh 12vh 3vh",
       }}
     >
-      {/* <Stack>
-                    <div>
-                        <Image src="assets/center1.jpeg" style={{ borderRadius: "30px", width: "40vh", margin: "2vh 3vh" }} alt="center cards" />
-                    </div>
-                </Stack> */}
+      <Stack>
+        <InputGroup className="mb-3">
+          <Form.Control
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="basic-addon2"
+            style={{ backgroundColor: "", color: "white", border: "none" }}
+          />
+          <InputGroup.Text
+            id="basic-addon2"
+            style={{
+              backgroundColor: "",
+              color: "white",
+              borderRightColor: "black",
+              borderRight: "1px solid"
+            }}
+          >
+            <img
+              src="assets/search.png"
+              style={{ width: "30px" }}
+              alt="search"
+            />
+          </InputGroup.Text>
+        </InputGroup>
+      </Stack>
       <br />
       <Stack direction="horizontal" gap={3}>
         <h2>Explore</h2>
-  
+
         <Nav.Link
           as={Link}
           to="/ministries"
@@ -41,10 +99,13 @@ function Landing(props) {
         >
           See more
         </Nav.Link>
-        
       </Stack>
-<br/>
-      <Stack direction="horizontal" gap={3} style={{ overflowX: "auto", fontSize: "12px"}}>
+      <br />
+      <Stack
+        direction="horizontal"
+        gap={3}
+        style={{ overflowX: "auto", fontSize: "12px" }}
+      >
         <Stack>
           <Image
             src="assets/ministries/coin.png"
@@ -119,371 +180,85 @@ function Landing(props) {
           />
           Educational
         </Stack>
-        {/* <Stack><Image src="assets/ministries/youth.png" alt="" style={{ width: "6vh" }} roundedCircle />Youth and sports</Stack>
-                    <Stack><Image src="assets/ministries/Government.png" alt="" style={{ width: "6vh" }} roundedCircle />Local Government</Stack>
-                    <Stack><Image src="assets/ministries/Science.png" alt="" style={{ width: "6vh" }} roundedCircle />Technology and science</Stack>
-                    <Stack><Image src="assets/ministries/urban.png" alt="" style={{ width: "6vh" }} roundedCircle />infrastructure and urban development</Stack>
-                    <Stack><Image src="assets/ministries/Transport.png" alt="" style={{ width: "6vh" }} roundedCircle />transport and logistics</Stack>
-                    <Stack><Image src="assets/ministries/coin.png" alt="" style={{ width: "6vh" }} roundedCircle />small and medium enterprise development</Stack>
-                    <Stack><Image src="assets/ministries/IT.png" alt="" style={{ width: "6vh" }} roundedCircle />Information and Broadcasting Services</Stack>
-                    <Stack><Image src="assets/ministries/Mining.png" alt="" style={{ width: "6vh" }} roundedCircle />Mines and Minerals Development</Stack>
-                    <Stack><Image src="assets/ministries/Economy.png" alt="" style={{ width: "6vh" }} roundedCircle />green economy and development</Stack>
-                    <Stack><Image src="assets/ministries/Water.png" alt="" style={{ width: "6vh" }} roundedCircle />water development and sanitation</Stack>
-                    <Stack><Image src="assets/ministries/labour.png" alt="" style={{ width: "6vh" }} roundedCircle />Labour and social security</Stack> */}
       </Stack>
-      <br/>
+      <br />
       <Stack direction="horizontal" gap={3}>
         <h2>Trending News</h2>
         <p className="p-2 ms-auto"></p>
       </Stack>
       <Row>
-        <Col style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}>
-          <Card
-            flex={{ base: "auto", md: 1 }}
-            style={{
-              height: "100%",
-              minWidth: "38vh",
-              border: "none",
-              backgroundColor: "black",
-            }}
-            onClick={() => navigate("/story")}
-          >
-            <Card.Body
+        {articles.map((article) => (
+          <Col style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}>
+            <Card
+              flex={{ base: "auto", md: 1 }}
               style={{
-                backgroundImage: 'url("assets/news/russia.jpg")',
-                color: "white",
-                backgroundSize: "cover",
-                borderRadius: "18px",
-              }}
-            >
-              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
-                <b>Russia fires 40 War Heads to Saudi region</b>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                <Badge bg="danger">Sports</Badge>
-              </Card.Subtitle>
-            </Card.Body>
-            <Card.Text
-              style={{
+                height: "100%",
+                minWidth: "38vh",
+                border: "none",
                 backgroundColor: "black",
-                color: "white",
-                fontSize: "14px",
-                margin: "5px 5px",
               }}
+              onClick={() => navigate("/story")}
             >
-              Russia has violently responded to the Saudi gunship that killed at least 70,000 civilians last week on the 13th of January.
-            </Card.Text>
-            <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
-              <Image
-                src="assets/ministries/labour.png"
-                alt=""
-                style={{ width: "3vh" }}
-                roundedCircle
-              />
-              Labour and social security
-            </Stack>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "10px",
-                margin: "2px 5px",
-              }}
-            >
-              28 November 2023 . 2.4 Millions Readers
-            </Card.Text>
-          </Card>
-        </Col>
+              <Card.Body
+                style={{
+                  backgroundImage: `url("${article.imagesUrls[0]}")`,
+                  color: "white",
+                  backgroundSize: "cover",
+                  borderRadius: "18px",
+                }}
+              >
+                {console.log(article.imagesUrls[0])}
+                <Card.Title
+                  style={{
+                    backgroundColor: "rgba(40,40,40,0.3)",
+                    borderRadius: "10px",
+                    padding: "1px",
+                  }}
+                >
+                  <b>{article.title}</b>
+                </Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                  <Badge bg="danger">{authors[article.author]?.ministry}</Badge>
+                </Card.Subtitle>
+              </Card.Body>
+              <Card.Text
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontSize: "14px",
+                  margin: "5px 5px",
+                }}
+              >
+                {article.content.length > 100
+                    ? `${article.content.substring(0, 100)}...`
+                    : article.content}
+              </Card.Text>
+              <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
+                <Image
+                  src="assets/ministries/labour.png"
+                  alt=""
+                  style={{ width: "3vh" }}
+                  roundedCircle
+                />
+                {authors[article.author]?.firstName}{" "}
+                  {authors[article.author]?.lastName}
+              </Stack>
+              <Card.Text
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  fontSize: "10px",
+                  margin: "2px 5px",
+                }}
+              >
+                {article.createdAt &&
+                    article.createdAt.toDate().toLocaleString()}
+              </Card.Text>
+            </Card>
+          </Col>
+        ))}
 
-        <Col style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}>
-          <Card
-            flex={{ base: "auto", md: 1 }}
-            style={{
-              height: "100%",
-              minWidth: "38vh",
-              border: "none",
-              backgroundColor: "black",
-            }}
-
-            onClick={() => navigate("/story")}
-          >
-            <Card.Body
-              style={{
-                backgroundImage: 'url("assets/news/chef.jpg")',
-                color: "white",
-                backgroundSize: "cover",
-                borderRadius: "18px",
-              }}
-            >
-              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
-                <b>Chef187 Nominated for Grammy</b>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                <Badge bg="danger">Sports</Badge>
-              </Card.Subtitle>
-            </Card.Body>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "14px",
-                margin: "5px 5px",
-              }}
-            >
-              Chef187 has been nominate for this years annual Grammy celebrations where he will competing with the likes of Davido and Pompi.
-            </Card.Text>
-            <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
-              <Image
-                src="assets/ministries/labour.png"
-                alt=""
-                style={{ width: "3vh" }}
-                roundedCircle
-              />
-              Labour and social security
-            </Stack>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "10px",
-                margin: "2px 5px",
-              }}
-            >
-              28 November 2023 . 2.4 Millions Readers
-            </Card.Text>
-          </Card>
-        </Col>
-
-        <Col style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}>
-          <Card
-            flex={{ base: "auto", md: 1 }}
-            style={{
-              height: "100%",
-              minWidth: "38vh",
-              border: "none",
-              backgroundColor: "black",
-            }}
-            onClick={() => navigate("/story")}
-          >
-            <Card.Body
-              style={{
-                backgroundImage: 'url("assets/news/zanaco.jpg")',
-                color: "white",
-                backgroundSize: "cover",
-                borderRadius: "18px",
-              }}
-            >
-              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
-                <b>North Western soccer league about to kick off</b>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                <Badge bg="danger">Sports</Badge>
-              </Card.Subtitle>
-            </Card.Body>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "14px",
-                margin: "5px 5px",
-              }}
-            >
-              Castle United scores winning goal during Cosafa Cup Finals
-            </Card.Text>
-            <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
-              <Image
-                src="assets/ministries/labour.png"
-                alt=""
-                style={{ width: "3vh" }}
-                roundedCircle
-              />
-              Labour and social security
-            </Stack>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "10px",
-                margin: "2px 5px",
-              }}
-            >
-              28 November 2023 . 2.4 Millions Readers
-            </Card.Text>
-          </Card>
-        </Col>
-
-        <Col style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}>
-          <Card
-            flex={{ base: "auto", md: 1 }}
-            style={{
-              height: "100%",
-              minWidth: "38vh",
-              border: "none",
-              backgroundColor: "black",
-            }}
-            onClick={() => navigate("/story")}
-          >
-            <Card.Body
-              style={{
-                backgroundImage: 'url("assets/center1.jpeg")',
-                color: "white",
-                backgroundSize: "cover",
-                borderRadius: "18px",
-              }}
-            >
-              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
-                <b>North Western soccer league about to kick off</b>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                <Badge bg="danger">Sports</Badge>
-              </Card.Subtitle>
-            </Card.Body>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "14px",
-                margin: "5px 5px",
-              }}
-            >
-              Castle United scores winning goal during Cosafa Cup Finals
-            </Card.Text>
-            <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
-              <Image
-                src="assets/ministries/labour.png"
-                alt=""
-                style={{ width: "3vh" }}
-                roundedCircle
-              />
-              Labour and social security
-            </Stack>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "10px",
-                margin: "2px 5px",
-              }}
-            >
-              28 November 2023 . 2.4 Millions Readers
-            </Card.Text>
-          </Card>
-        </Col>
-
-        <Col style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}>
-          <Card
-            flex={{ base: "auto", md: 1 }}
-            style={{
-              height: "100%",
-              minWidth: "38vh",
-              border: "none",
-              backgroundColor: "black",
-            }}
-          >
-            <Card.Body
-              style={{
-                backgroundImage: 'url("assets/center1.jpeg")',
-                color: "white",
-                backgroundSize: "cover",
-                borderRadius: "18px",
-              }}
-            >
-              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
-                <b>North Western soccer league about to kick off</b>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                <Badge bg="danger">Sports</Badge>
-              </Card.Subtitle>
-            </Card.Body>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "14px",
-                margin: "5px 5px",
-              }}
-            >
-              Castle United scores winning goal during Cosafa Cup Finals
-            </Card.Text>
-            <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
-              <Image
-                src="assets/ministries/labour.png"
-                alt=""
-                style={{ width: "3vh" }}
-                roundedCircle
-              />
-              Labour and social security
-            </Stack>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "10px",
-                margin: "2px 5px",
-              }}
-            >
-              28 November 2023 . 2.4 Millions Readers
-            </Card.Text>
-          </Card>
-        </Col>
-
-        <Col style={{ height: "45vh", marginBottom: "10%", padding: "0 0" }}>
-          <Card
-            flex={{ base: "auto", md: 1 }}
-            style={{
-              height: "100%",
-              minWidth: "38vh",
-              border: "none",
-              backgroundColor: "black",
-            }}
-          >
-            <Card.Body
-              style={{
-                backgroundImage: 'url("assets/center1.jpeg")',
-                color: "white",
-                backgroundSize: "cover",
-                borderRadius: "18px",
-              }}
-            >
-              <Card.Title style={{ backgroundColor: "rgba(40,40,40,0.3)", borderRadius: "10px", padding: "1px"}}>
-                <b>North Western soccer league about to kick off</b>
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                <Badge bg="danger">Sports</Badge>
-              </Card.Subtitle>
-            </Card.Body>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "14px",
-                margin: "5px 5px",
-              }}
-            >
-              Castle United scores winning goal during Cosafa Cup Finals
-            </Card.Text>
-            <Stack direction="horizontal" gap={2} style={{ color: "white" }}>
-              <Image
-                src="assets/ministries/labour.png"
-                alt=""
-                style={{ width: "3vh" }}
-                roundedCircle
-              />
-              Labour and social security
-            </Stack>
-            <Card.Text
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontSize: "10px",
-                margin: "2px 5px",
-              }}
-            >
-              28 November 2023 . 2.4 Millions Readers
-            </Card.Text>
-          </Card>
-        </Col>
-      </Row>
+        </Row>
     </Container>
   );
 }

@@ -19,7 +19,7 @@ const Navigation = () => {
         <Nav.Link
           as={Link}
           to="/home"
-          style={{ color: "grey" }}
+          style={{ color: "gray", fontSize: "14px" }}
           onClick={() => navigate('/home')}
         >
           <i className="bi bi-house"></i>
@@ -31,7 +31,7 @@ const Navigation = () => {
         <Nav.Link
           as={Link}
           to="/reels"
-          style={{ color: "grey" }}
+          style={{ color: "gray", fontSize: "14px" }}
           onClick={() => navigate('/reels')}
         >
           <i className="bi bi-tv"></i>
@@ -43,7 +43,7 @@ const Navigation = () => {
         <Nav.Link
           as={Link}
           to="/profile"
-          style={{ color: "grey" }}
+          style={{ color: "gray", fontSize: "14px" }}
           onClick={() => navigate('/profile')}
         >
           <i className="bi bi-person"></i>

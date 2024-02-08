@@ -131,7 +131,7 @@ const Story = ({}) => {
               <Col>
                 <FacebookShareButton
                   url="https://zanis-pro.web.app"
-                  quote="ZANIS. Come check us out at merge every Sunday 1pm to 2:30pm!"
+                  quote="ZANIS. To Inform, Educate and Entertain the Nation"
                 >
                   <i className="bi bi-facebook"></i>
                 </FacebookShareButton>
@@ -140,7 +140,7 @@ const Story = ({}) => {
                 <WhatsappShareButton
                   url="https://zanis-pro.web.app"
                   title="ZANIS "
-                  separator=" Come check us out at merge every Sunday 1pm to 2:30pm! "
+                  separator=" To Inform, Educate and Entertain the Nation "
                 >
                   <i className="bi bi-whatsapp"></i>
                 </WhatsappShareButton>
@@ -149,7 +149,7 @@ const Story = ({}) => {
                 <TwitterShareButton
                   title="ZANIS"
                   url={"https://zanis-pro.web.app"}
-                  via={"Come check us out at merge every Sunday 1pm to 2:30pm!"}
+                  via={"To Inform, Educate and Entertain the Nation"}
                 >
                   <i className="bi bi-twitter"></i>
                 </TwitterShareButton>
@@ -158,7 +158,7 @@ const Story = ({}) => {
                 <TelegramShareButton
                   url="https://zanis-pro.web.app"
                   title="ZANIS"
-                  description="Come check us out at merge every Sunday 1pm to 2:30pm!"
+                  description="To Inform, Educate and Entertain the Nation"
                 >
                   <i className="bi bi-telegram"></i>
                 </TelegramShareButton>

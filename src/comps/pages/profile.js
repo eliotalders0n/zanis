@@ -4,6 +4,7 @@ import { Card, Stack, Image, Button, Container } from "react-bootstrap";
 const Profile = ({ title, date, postedBy, imageUrl }) => {
   return (
     <Container
+    fluid
       style={{
         backgroundColor: "black",
         color: "white",

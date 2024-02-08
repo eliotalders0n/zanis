@@ -1,10 +1,10 @@
 import React from 'react';
-import { Card, Badge, Stack, Image } from 'react-bootstrap';
+import { Card, Badge, Stack, Image, Container, Row, Col } from 'react-bootstrap';
 
 const ReelCard = ({ title, date, postedBy, imageUrl }) => {
     return (
-        <div style={{backgroundColor: "black", height: "auto", padding: "12vh 1vh 12vh 1vh",}}>
-                <Card flex={{ base: 'auto', md: 1 }} style={{ height: "85vh", maxWidth: "450px", minWidth: "270px", border: "none", backgroundColor: "black",  paddingBottom: "7vh" }}>
+        <Container fluid style={{backgroundColor: "black", height: "auto", padding: "12vh 1vh 12vh 1vh",}}>
+                <Card flex={{ base: 'auto', md: 1 }} style={{ height: "85vh", maxWidth: "450px", minWidth: "auto", border: "none", backgroundColor: "black",  paddingBottom: "7vh" }}>
                     <Card.Body style={{ backgroundImage: `url("assets/news/chef.jpg")`, color: "white", backgroundSize: "cover", borderRadius: "18px" }}>
                         <Card.Title><b>{title}</b></Card.Title>
                         <Card.Subtitle className="mb-2 text-muted"><Badge bg="danger">Sports</Badge></Card.Subtitle>
@@ -20,8 +20,7 @@ const ReelCard = ({ title, date, postedBy, imageUrl }) => {
                         {date}   .   2.4 Millions Readers
                     </Card.Text>
                 </Card>
-
-                <Card flex={{ base: 'auto', md: 1 }} style={{ height: "85vh", maxWidth: "450px", minWidth: "270px", border: "none", backgroundColor: "black",  paddingBottom: "7vh" }}>
+                <Card flex={{ base: 'auto', md: 1 }} style={{ height: "85vh", maxWidth: "450px", minWidth: "auto", border: "none", backgroundColor: "black",  paddingBottom: "7vh" }}>
                     <Card.Body style={{ backgroundImage: `url("assets/news/russia.jpg")`, color: "white", backgroundSize: "cover", borderRadius: "18px" }}>
                         <Card.Title><b>{title}</b></Card.Title>
                         <Card.Subtitle className="mb-2 text-muted"><Badge bg="danger">Finance</Badge></Card.Subtitle>
@@ -37,7 +36,7 @@ const ReelCard = ({ title, date, postedBy, imageUrl }) => {
                         {date}   .   2.4 Millions Readers
                     </Card.Text>
                 </Card>
-        </div>
+        </Container>
     );
 }
 

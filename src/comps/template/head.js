@@ -4,7 +4,7 @@ import { Container, Image } from 'react-bootstrap';
 
 const Header  = () => {
     return (
-        <Container className='fixed-top' style={{backgroundColor: 'rgb(13,85,12)',}}>
+        <Container fluid className='fixed-top d-flex justify-content-center' style={{backgroundColor: 'green',}}>
            <Image
             style={logo} 
             src='assets/logo.png'
@@ -15,9 +15,10 @@ const Header  = () => {
 
 
 const logo = {
-        width: "30vh",
+        width: "20vh",
+        padding: "5px",
         resizeMode: 'contain',
-        margin: "1px 20%"
+        // margin: "1px 20%"
     }
 
 export default Header;
