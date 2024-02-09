@@ -5,12 +5,13 @@ import "firebase/compat/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBmEU6TEjJl2VwuxgFTfTekgqmIYZNgufk",
-  authDomain: "zanis-pro.firebaseapp.com",
-  projectId: "zanis-pro",
-  storageBucket: "zanis-pro.appspot.com",
-  messagingSenderId: "214538999867",
-  appId: "1:214538999867:web:5e7562737c20357df6241e"
+  apiKey: "AIzaSyDZ8hosDbUffyNm_7uzacxuljOpK0TOmWQ",
+  authDomain: "zanis-app.firebaseapp.com",
+  projectId: "zanis-app",
+  storageBucket: "zanis-app.appspot.com",
+  messagingSenderId: "141780524287",
+  appId: "1:141780524287:web:e48d44df46e72f06b1c0ca",
+  measurementId: "G-5GJHFZMXV1"
 };
 firebase.initializeApp(firebaseConfig);
 export default firebase;

@@ -14,7 +14,7 @@ import {
   Form,
 } from "react-bootstrap";
 import {useState, useEffect} from 'react';
-import firebase from "./../../firebase";
+import firebase from "../../firebase";
 
 function Landing(props) {
   const navigate = useNavigate();
@@ -26,6 +26,8 @@ function Landing(props) {
     const unsubscribeArticles = firebase
       .firestore()
       .collection("Articles")
+      .where('status','==','approved')
+      .orderBy('createdAt', 'desc')
       .onSnapshot((snapshot) => {
         const articles = snapshot.docs.map((doc) => ({
           id: doc.id,
