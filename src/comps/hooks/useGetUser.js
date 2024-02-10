@@ -7,7 +7,7 @@ const useGetUser = (id) => {
   useEffect(() => {
     firebase
       .firestore()
-      .collection("users")
+      .collection("Users")
       .doc(id)
       .onSnapshot((doc) => {
         setdocs(doc.data());

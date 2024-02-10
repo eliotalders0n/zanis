@@ -46,7 +46,7 @@ const App = () => {
           <Route path="/reels" element={<ReelCard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/ministries" element={<Ministries />} />
-          <Route path="/story" element={<Story />} />
+          <Route path="/story/:id" element={<Story />} />
         </Routes>
         <Navigation />
       </Router>

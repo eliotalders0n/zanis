@@ -1,14 +1,28 @@
 import React from "react";
-import { Card, Stack, Image, Button, Form, InputGroup, Col, Modal, Row } from "react-bootstrap";
-import { useState } from "react";
 import {
-    TwitterShareButton,
-    WhatsappShareButton,
-    FacebookShareButton,
-    TelegramShareButton,
-  } from "react-share";
+  Card,
+  Stack,
+  Image,
+  Button,
+  Form,
+  InputGroup,
+  Col,
+  Modal,
+  Row,
+} from "react-bootstrap";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import {
+  TwitterShareButton,
+  WhatsappShareButton,
+  FacebookShareButton,
+  TelegramShareButton,
+} from "react-share";
+import useGetUser from "../hooks/useGetUser";
 
-const Story = ({}) => {
+function Story() {
+  const location = useLocation();
+  const { data } = location.state;
   const [expanded, setExpanded] = useState(false);
 
   const handleClick = () => {
@@ -26,9 +40,9 @@ const Story = ({}) => {
   const handleShareClose = () => setShowShare(false);
   const handleShareShow = () => setShowShare(true);
 
-  const story =
-    "In a bustling city, the Labor and Social Security Minister stood behind the podium, his voice echoing through the crowded conference hall. The air was charged with anticipation as attendees leaned forward, eager to hear his words. With a sense of purpose, he began to address the challenges and aspirations of the workforce. The minister spoke passionately about the importance of creating a fair and inclusive work environment, one where every citizen could contribute and thrive. He outlined ambitious plans to strengthen labor laws, ensuring better protection for workers and fair wages. His vision extended beyond the economic landscape, reaching into the social fabric, aiming to uplift communities through meaningful employment opportunities. As he spoke, the minister emphasized the need for collaboration between the government, businesses, and labor unions. He envisioned a partnership that would drive innovation, foster job creation, and ultimately lead to a more robust and resilient society. The audience absorbed every word, inspired by the minister's commitment to social justice and the well-being of the nation. The message reverberated far beyond the conference hall, sparking conversations and actions that would shape the future of labor and social security policies. The minister's words became a rallying cry for change, resonating with workers, employers, and advocates alike. Through his impassioned speech, he had ignited a collective determination to build a society where labor was not just a means of survival but a pathway to prosperity and fulfillment. As the minister concluded his address, the room erupted in applause, a symbol of hope and unity. His words lingered in the hearts of the people, prompting reflection on the shared responsibility of creating a better future for all. The journey towards a more just and equitable society had begun, fueled by the resounding voice of the Labor and Social Security Minister.";
-
+  const story = data.content;
+  const author = useGetUser(data.author).docs;
+  
   return (
     <div
       style={{
@@ -40,9 +54,7 @@ const Story = ({}) => {
     >
       <div>
         <Stack style={{ color: "white", margin: "1vh 3vh" }}>
-          <h2 className="display-5">
-            Labour and social security minister has spoken
-          </h2>
+          <h2 className="display-5">{data.title}</h2>
           <Stack direction="horizontal">
             <Image
               src="assets/ministries/labour.png"
@@ -50,7 +62,7 @@ const Story = ({}) => {
               style={{ width: "3vh" }}
               roundedCircle
             />
-            Mwape Mpendulo Jnr
+            {author.firstName} {author.lastName}
           </Stack>
           <Card.Text
             style={{
@@ -65,7 +77,7 @@ const Story = ({}) => {
             28 November 2023 . 2.4 Millions Readers
           </Card.Text>
           <br />
-          <Image src="assets/news/labour.jpg" alt="labour" rounded />
+          <Image src={data.imagesUrls[0]} alt="labour" rounded />
           <Card.Text
             style={{
               backgroundColor: "black",
@@ -121,8 +133,8 @@ const Story = ({}) => {
           )}
         </Stack>
       </div>
-      <Modal show={showShare} onHide={handleShareClose} >
-        <Modal.Body style={{backgroundColor: "black", color:"white"}}>
+      <Modal show={showShare} onHide={handleShareClose}>
+        <Modal.Body style={{ backgroundColor: "black", color: "white" }}>
           <h4 className="display-6 text-center">
             Share this with your social Community!
             <br />
@@ -130,17 +142,17 @@ const Story = ({}) => {
             <Row>
               <Col>
                 <FacebookShareButton
-                  url="https://zanis-pro.web.app"
-                  quote="ZANIS. To Inform, Educate and Entertain the Nation"
+                  url={`https://zanis-pro.web.app/story/${data.id}`}
+                  quote="ZANIS.To Inform, Educate and Entertain the Nation!"
                 >
                   <i className="bi bi-facebook"></i>
                 </FacebookShareButton>
               </Col>
               <Col>
                 <WhatsappShareButton
-                  url="https://zanis-pro.web.app"
+                  url={`https://zanis-pro.web.app/story/${data.id}`}
                   title="ZANIS "
-                  separator=" To Inform, Educate and Entertain the Nation "
+                  separator="To Inform, Educate and Entertain the Nation! "
                 >
                   <i className="bi bi-whatsapp"></i>
                 </WhatsappShareButton>
@@ -148,17 +160,17 @@ const Story = ({}) => {
               <Col>
                 <TwitterShareButton
                   title="ZANIS"
-                  url={"https://zanis-pro.web.app"}
-                  via={"To Inform, Educate and Entertain the Nation"}
+                  url={`https://zanis-pro.web.app/story/${data.id}`}
+                  via={"ZANIS. To Inform, Educate and Entertain the Nation"}
                 >
                   <i className="bi bi-twitter"></i>
                 </TwitterShareButton>
               </Col>
               <Col>
                 <TelegramShareButton
-                  url="https://zanis-pro.web.app"
+                  url={`https://zanis-pro.web.app/story/${data.id}`}
                   title="ZANIS"
-                  description="To Inform, Educate and Entertain the Nation"
+                  description="ZANIS. To Inform, Educate and Entertain the Nation"
                 >
                   <i className="bi bi-telegram"></i>
                 </TelegramShareButton>
@@ -170,7 +182,7 @@ const Story = ({}) => {
           <p className="lead">or copy link</p>
           <InputGroup className="mb-3">
             <Form.Control
-              placeholder="https://zanis-pro.web.applink"
+              placeholder={`https://zanis-pro.web.app/story/${data.id}`}
               aria-label="Recipient's username"
               aria-describedby="basic-addon2"
             />
@@ -178,16 +190,21 @@ const Story = ({}) => {
               variant="outline-success"
               id="button-addon2"
               onClick={() => {
-                navigator.clipboard.writeText(
-                  "https://zanis-pro.web.applink"
-                );
+                navigator.clipboard
+                  .writeText(`https://zanis-pro.web.app/story/${data.id}`)
+                  .then(() => {
+                    console.log("Text copied to clipboard");
+                  })
+                  .catch((error) => {
+                    console.error("Error copying text to clipboard:", error);
+                  });
               }}
             >
               Copy
             </Button>
           </InputGroup>
         </Modal.Body>
-        <Modal.Footer style={{backgroundColor: "black", color:"white"}}>
+        <Modal.Footer style={{ backgroundColor: "black", color: "white" }}>
           <Button variant="dark" onClick={handleShareClose}>
             Close
           </Button>
@@ -195,5 +212,5 @@ const Story = ({}) => {
       </Modal>
     </div>
   );
-};
+}
 export default Story;

@@ -7,7 +7,7 @@ const Header  = () => {
         <Container fluid className='fixed-top d-flex justify-content-center' style={{backgroundColor: 'green',}}>
            <Image
             style={logo} 
-            src='assets/logo.png'
+            src='assets/download.png'
             />
         </Container>
     )
