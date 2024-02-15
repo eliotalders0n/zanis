@@ -9,8 +9,9 @@ import {
     Button,
     ListGroup,
   } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
-function signinform(props) {
+function Signinform(props) {
     return (
         <div>
             <form>
@@ -45,7 +46,7 @@ function signinform(props) {
                       </Col>
                       <Link to="/profile1">
                         <br />
-                        <Button variant="outline-dark" onClick={handleShowReg}>
+                        <Button variant="outline-dark" >
                           Not a member yet? Signup
                         </Button>
                       </Link>
@@ -56,4 +57,4 @@ function signinform(props) {
     );
 }
 
-export default signinform;
+export default Signinform;

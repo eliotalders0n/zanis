@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Typography from "@mui/material/Typography";
 // User Interface
 import firebase from "./firebase";
-import Header from "./comps/template/head";
-import Landing from "./comps/pages/landingPage";
-import ReelCard from "./comps/pages/reels";
-import Profile from "./comps/pages/profile";
-import { Routes } from "react-router-dom";
-import Navigation from "./comps/template/navigation";
-import Ministries from "./comps/pages/ministires";
-import Story from "./comps/pages/story";
+import LoginRoutes from "./loginroutes";
+import Routers from "./routes";
+
 const App = () => {
   const [state, setstate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setIsLoading(true); // Set isLoading to true when the component mounts
@@ -38,18 +35,23 @@ const App = () => {
 
   return (
     <>
-      <Header />
-      <Router>
-        <Routes>
-          <Route path="" element={<Landing />} />
-          <Route path="/home" element={<Landing />} />
-          <Route path="/reels" element={<ReelCard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/ministries" element={<Ministries />} />
-          <Route path="/story/:id" element={<Story />} />
-        </Routes>
-        <Navigation />
-      </Router>
+      {error && (
+        <Typography
+          variant="body2"
+          color="error"
+          style={{
+            backgroundColor: "rgb(0,70,0)",
+            fontSize: "14px",
+            color: "lightgrey",
+            padding: "6px",
+          }}
+          align="center"
+        >
+          {error}
+        </Typography>
+      )}
+      {state && <LoginRoutes />}
+      {!state && <Routers />}
     </>
   );
 };

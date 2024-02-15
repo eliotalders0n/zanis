@@ -13,11 +13,13 @@ import {
   InputGroup,
   Form,
   Button,
+  Modal,
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import firebase from "../../firebase";
 import { Skeleton } from "@mui/material";
 import useGetMinistries from "../hooks/useGetMinistries";
+import DOMPurify from 'dompurify';
 
 function Landing(props) {
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ function Landing(props) {
   const [loading, setLoading] = useState(true);
   const [authors, setAuthors] = useState({});
   const [searchTerm, setSearchTerm] = useState(""); // State to hold search term
-  const ministries = useGetMinistries().docs;
+  // const ministries = useGetMinistries().docs;
 
   useEffect(() => {
     // Load articles from Firestore on component mount
@@ -86,13 +88,25 @@ function Landing(props) {
     setFilteredArticles(filtered);
   };
 
-    // Function to reset search and ministry filter
-    const resetFilters = () => {
-      setSearchTerm("");
-      setFilteredArticles(articles);
-    };
+  // Function to reset search and ministry filter
+  const resetFilters = () => {
+    setSearchTerm("");
+    setFilteredArticles(articles);
+  };
 
   const Ministries = useGetMinistries().docs;
+
+  const [showShare, setShowShare] = useState(false);
+
+  const handleShareClose = () => setShowShare(false);
+  const handleShareShow = () => setShowShare(true);
+
+  const sanitizeHTML = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html)
+    };
+  };
+
   return (
     <Container
       fluid
@@ -128,23 +142,23 @@ function Landing(props) {
             />
           </InputGroup.Text>
         </InputGroup>
-          <Button variant="secondary" size="sm" onClick={resetFilters}>
-            Reset Filters
-          </Button>
+        <Button variant="secondary" size="sm" onClick={resetFilters}>
+          Reset Filters
+        </Button>
       </Stack>
       <br />
       <Stack direction="horizontal" gap={3}>
         <h2>Explore</h2>
 
-        <Nav.Link
+        {/* <Nav.Link
           as={Link}
-          to="/ministries"
+          // to="/ministries"
           style={{ color: "grey" }}
-          onClick={() => navigate("/ministries")}
+          onClick={handleShareShow}
           className="p-2 ms-auto"
         >
           See more
-        </Nav.Link>
+        </Nav.Link> */}
       </Stack>
       <br />
       <Stack
@@ -218,9 +232,13 @@ function Landing(props) {
           </Stack>
         ) : filteredArticles.length === 0 ? (
           <>
-          <br/>
-          <h3 className="display-3 text-center"> <b>Oops!</b> <br/>No news yet for that ministry.</h3>
-          <p className="lead text-center">Try again later</p>
+            <br />
+            <h3 className="display-3 text-center">
+              {" "}
+              <b>Oops!</b> <br />
+              No news yet for that ministry.
+            </h3>
+            <p className="lead text-center">Try again later</p>
           </>
         ) : (
           filteredArticles
@@ -283,8 +301,11 @@ function Landing(props) {
                       }}
                     >
                       {article.content.length > 100
-                        ? `${article.content.substring(0, 100)}...`
-                        : article.content}
+                        ?  (
+                          <div dangerouslySetInnerHTML={sanitizeHTML(`${article.content.substring(0, 100)}...`)} />
+                        ) : (
+                          <div dangerouslySetInnerHTML={sanitizeHTML(article.content)} />
+                        )}
                     </Card.Text>
                     <Stack
                       direction="horizontal"
@@ -317,6 +338,18 @@ function Landing(props) {
             ))
         )}
       </Row>
+      <Modal show={showShare} onHide={handleShareClose}>
+        <Modal.Body
+          style={{ backgroundColor: "black", color: "white" }}
+        >
+          <Stack gap={4} style={{padding:"10px 20px"}}>
+          {Ministries.map((ministry) => (
+            <Badge bg="success" key={ministry.id}
+            onClick={() => filterArticlesByMinistry(ministry.name)}>Ministry of {ministry.name}</Badge>
+      ))}
+      </Stack>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }
