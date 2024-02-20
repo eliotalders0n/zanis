@@ -19,15 +19,18 @@ import { useState, useEffect } from "react";
 import firebase from "../../firebase";
 import { Skeleton } from "@mui/material";
 import useGetMinistries from "../hooks/useGetMinistries";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
+import { useTheme } from "../template/themeContext";
 
 function Landing(props) {
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
-  const [filteredArticles, setFilteredArticles] = useState([]); // State to hold filtered articles
+  const [filteredArticles, setFilteredArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authors, setAuthors] = useState({});
-  const [searchTerm, setSearchTerm] = useState(""); // State to hold search term
+  const [searchTerm, setSearchTerm] = useState("");
+  // const [theme, setTheme] = useState('light');
+  const { theme } = useTheme();
   // const ministries = useGetMinistries().docs;
 
   useEffect(() => {
@@ -103,16 +106,27 @@ function Landing(props) {
 
   const sanitizeHTML = (html) => {
     return {
-      __html: DOMPurify.sanitize(html)
+      __html: DOMPurify.sanitize(html),
     };
   };
+
+  //  // Function to toggle between light and dark mode
+  //  const toggleTheme = () => {
+  //   setTheme(theme === 'light' ? 'dark' : 'light');
+  // };
 
   return (
     <Container
       fluid
+      // style={{
+      //   backgroundColor: "black",
+      //   color: "white",
+      //   minHeight: "100vh",
+      //   padding: "12vh 3vh 12vh 3vh",
+      // }}
       style={{
-        backgroundColor: "black",
-        color: "white",
+        backgroundColor: theme === "light" ? "white" : "black",
+        color: theme === "light" ? "black" : "white",
         minHeight: "100vh",
         padding: "12vh 3vh 12vh 3vh",
       }}
@@ -263,14 +277,16 @@ function Landing(props) {
                       height: "100%",
                       minWidth: "38vh",
                       border: "none",
-                      backgroundColor: "black",
+                      backgroundColor: theme === "light" ? "white" : "black",
+                      color: theme === "light" ? "black" : "white",
                     }}
                     onClick={() => navigate("/story")}
                   >
                     <Card.Body
                       style={{
                         backgroundImage: `url("${article.imagesUrls[0]}")`,
-                        color: "white",
+                        backgroundColor: theme === "light" ? "white" : "black",
+                        color: theme === "light" ? "black" : "white",
                         backgroundSize: "cover",
                         borderRadius: "18px",
                       }}
@@ -278,7 +294,11 @@ function Landing(props) {
                       {console.log(article.imagesUrls[0])}
                       <Card.Title
                         style={{
-                          backgroundColor: "rgba(40,40,40,0.3)",
+                          backgroundColor:
+                            theme === "light"
+                              ? "rgba(250,250,250,0.8)"
+                              : "rgba(50,50,50,0.5)",
+                          color: theme === "light" ? "black" : "white",
                           borderRadius: "10px",
                           padding: "1px",
                         }}
@@ -294,28 +314,38 @@ function Landing(props) {
                     </Card.Body>
                     <Card.Text
                       style={{
-                        backgroundColor: "black",
-                        color: "white",
+                        backgroundColor: theme === "light" ? "white" : "black",
+                        color: theme === "light" ? "black" : "white",
                         fontSize: "14px",
                         margin: "5px 5px",
                       }}
                     >
-                      {article.content.length > 100
-                        ?  (
-                          <div dangerouslySetInnerHTML={sanitizeHTML(`${article.content.substring(0, 100)}...`)} />
-                        ) : (
-                          <div dangerouslySetInnerHTML={sanitizeHTML(article.content)} />
-                        )}
+                      {article.content.length > 100 ? (
+                        <div
+                          dangerouslySetInnerHTML={sanitizeHTML(
+                            `${article.content.substring(0, 100)}...`
+                          )}
+                        />
+                      ) : (
+                        <div
+                          dangerouslySetInnerHTML={sanitizeHTML(
+                            article.content
+                          )}
+                        />
+                      )}
                     </Card.Text>
                     <Stack
                       direction="horizontal"
                       gap={2}
-                      style={{ color: "white" }}
+                      style={{
+                        backgroundColor: theme === "light" ? "white" : "black",
+                        color: theme === "light" ? "black" : "white",
+                      }}
                     >
                       <Image
-                        src="assets/ministries/labour.png"
+                        src={authors[article.author]?.photoURL}
                         alt=""
-                        style={{ width: "3vh" }}
+                        style={{ width: "3vh", height: "3vh" }}
                         roundedCircle
                       />
                       {authors[article.author]?.firstName}{" "}
@@ -323,8 +353,8 @@ function Landing(props) {
                     </Stack>
                     <Card.Text
                       style={{
-                        backgroundColor: "black",
-                        color: "white",
+                        backgroundColor: theme === "light" ? "white" : "black",
+                        color: theme === "light" ? "black" : "white",
                         fontSize: "10px",
                         margin: "2px 5px",
                       }}
@@ -340,14 +370,22 @@ function Landing(props) {
       </Row>
       <Modal show={showShare} onHide={handleShareClose}>
         <Modal.Body
-          style={{ backgroundColor: "black", color: "white" }}
+          style={{
+            backgroundColor: theme === "light" ? "white" : "black",
+            color: theme === "light" ? "black" : "white",
+          }}
         >
-          <Stack gap={4} style={{padding:"10px 20px"}}>
-          {Ministries.map((ministry) => (
-            <Badge bg="success" key={ministry.id}
-            onClick={() => filterArticlesByMinistry(ministry.name)}>Ministry of {ministry.name}</Badge>
-      ))}
-      </Stack>
+          <Stack gap={4} style={{ padding: "10px 20px" }}>
+            {Ministries.map((ministry) => (
+              <Badge
+                bg="success"
+                key={ministry.id}
+                onClick={() => filterArticlesByMinistry(ministry.name)}
+              >
+                Ministry of {ministry.name}
+              </Badge>
+            ))}
+          </Stack>
         </Modal.Body>
       </Modal>
     </Container>

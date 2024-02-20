@@ -13,51 +13,38 @@ const GoogleSignInButton = () => {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        // Check if this is a new user
-        if (result.additionalUserInfo.isNewUser) {
-          // Perform additional registration steps if needed
-          firebase
-            .auth()
-            .createUserWithEmailAndPassword(result.email, result.password)
-            .then((userCredential) => {
-              console.log(userCredential);
-              var user = userCredential.user;
-              firebase
-                .firestore()
-                .collection("Users")
-                .doc(user.uid)
-                .set({
-                  firstName: "",
-                  lastName: "",
-                  photoUrl: result.photoUrl,
-                  email: result.email,
-                  role: "user",
-                  age: "",
-                  contact: "",
-                  gender: "",
-                  address: "",
-                  status: "Approved",
-                  admin: false,
-                })
-                .then(() => {
-                  navigate("/home");
-                  console.log("added to database");
-                })
-                .catch((e) => console.log(e));
+        const user = result.user;
 
-              // Signed ins
-            })
-            .catch((error) => {
-              var errorMessage = error.message;
-              alert(errorMessage);
-
-              // ..
-            });
-          console.log("New user signed up with Google:", result.user);
-        }
+        // Check if the user exists in Firestore
+        firebase
+          .firestore()
+          .collection("Users")
+          .doc(user.uid)
+          .get()
+          .then((doc) => {
+            if (!doc.exists) {
+              // User doesn't exist, create a new user document
+              firebase.firestore().collection("Users").doc(user.uid).set({
+                firstName: "",
+                lastName: "",
+                photoUrl: user.photoURL,
+                email: user.email,
+                role: "user",
+                age: "",
+                contact: "",
+                gender: "",
+                address: "",
+                status: "Approved",
+                admin: false,
+              });
+            }
+            navigate("/home");
+          })
+          .catch((error) => {
+            console.error("Error checking Firestore:", error);
+          });
       })
       .catch((error) => {
-        // Handle errors
         console.error("Error signing in with Google:", error);
       });
   };

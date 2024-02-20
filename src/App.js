@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import firebase from "./firebase";
 import LoginRoutes from "./loginroutes";
 import Routers from "./routes";
+import { ThemeProvider } from "./comps/template/themeContext";
 
 const App = () => {
   const [state, setstate] = useState(false);
@@ -34,7 +35,7 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <ThemeProvider>
       {error && (
         <Typography
           variant="body2"
@@ -52,7 +53,7 @@ const App = () => {
       )}
       {state && <LoginRoutes />}
       {!state && <Routers />}
-    </>
+      </ThemeProvider>
   );
 };
 
