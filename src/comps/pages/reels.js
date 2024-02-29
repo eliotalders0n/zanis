@@ -128,16 +128,7 @@ const ReelCard = () => {
                 <img src={authors[article.author]?.photoURL} alt="" style={{ width: "3vh", height: "3vh" }} roundedCircle />
                 {authors[article.author]?.firstName} {authors[article.author]?.lastName}
               </Stack>
-            </Card.Text>
-            {/* <Button variant="primary" onClick={() => handleLike(article.id)}>
-                  Like
-                </Button>
-                <Button variant="danger" onClick={() => handleDislike(article.id)}>
-                  Dislike
-                </Button>
-                <Button variant="info" onClick={() => handleComment(article.id)}>
-                  Comment
-                </Button> */}
+            </Card.Text>           
           </Card>
         ))
       )}

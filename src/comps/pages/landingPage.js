@@ -1,5 +1,4 @@
-import React from "react";
-// import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Row,
@@ -9,97 +8,93 @@ import {
   Badge,
   Card,
   Container,
-  Nav,
   InputGroup,
   Form,
   Button,
   Modal,
 } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import firebase from "../../firebase";
 import { Skeleton } from "@mui/material";
-import useGetMinistries from "../hooks/useGetMinistries";
+import firebase from "../../firebase";
 import DOMPurify from "dompurify";
 import { useTheme } from "../template/themeContext";
+import useGetMinistries from "../hooks/useGetMinistries";
 
-function Landing(props) {
+function Landing() {
   const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authors, setAuthors] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
-  // const [theme, setTheme] = useState('light');
   const { theme } = useTheme();
-  // const ministries = useGetMinistries().docs;
+  const Ministries = useGetMinistries().docs;
+  const [showShare, setShowShare] = useState(false);
 
   useEffect(() => {
-    // Load articles from Firestore on component mount
-    const unsubscribeArticles = firebase
-      .firestore()
-      .collection("Articles")
-      .where("status", "==", "approved")
-      .orderBy("createdAt", "desc")
-      .onSnapshot((snapshot) => {
-        const articles = snapshot.docs.map((doc) => ({
+    const fetchData = async () => {
+      try {
+        const articlesSnapshot = await firebase
+          .firestore()
+          .collection("Articles")
+          .where("status", "==", "approved")
+          .where("video", "==", false)
+          .orderBy("createdAt", "desc")
+          .get();
+
+        const articlesData = articlesSnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setLoading(false);
-        setArticles(articles);
-        setFilteredArticles(articles);
-      });
+        setArticles(articlesData);
+        setFilteredArticles(articlesData);
 
-    // Load authors from Firestore
-    const unsubscribeAuthors = firebase
-      .firestore()
-      .collection("Users")
-      .onSnapshot((snapshot) => {
+        const authorsSnapshot = await firebase
+          .firestore()
+          .collection("Users")
+          .get();
+
         const authorsData = {};
-        snapshot.docs.forEach((doc) => {
+        authorsSnapshot.docs.forEach((doc) => {
           authorsData[doc.id] = doc.data();
         });
         setAuthors(authorsData);
-      });
 
-    return () => {
-      unsubscribeArticles();
-      unsubscribeAuthors();
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        setLoading(false);
+      }
     };
+
+    fetchData();
   }, []);
 
-  // Function to filter articles based on ministry
-  const filterArticlesByMinistry = (ministryId) => {
-    if (ministryId === "all") {
-      setFilteredArticles(articles); // If ministry is "all", show all articles
-    } else {
-      const filtered = articles.filter(
-        (article) => article.ministry === ministryId
-      );
-      console.log("filter : " + filtered);
-      setFilteredArticles(filtered);
-    }
-  };
-
-  // Function to handle live search
-  const handleSearch = (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    setSearchTerm(searchTerm);
+  useEffect(() => {
     const filtered = articles.filter((article) =>
-      article.title.toLowerCase().includes(searchTerm)
+      article.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredArticles(filtered);
+  }, [articles, searchTerm]);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
   };
 
-  // Function to reset search and ministry filter
   const resetFilters = () => {
     setSearchTerm("");
     setFilteredArticles(articles);
   };
 
-  const Ministries = useGetMinistries().docs;
-
-  const [showShare, setShowShare] = useState(false);
+  const filterArticlesByMinistry = (ministryId) => {
+    if (ministryId === "all") {
+      setFilteredArticles(articles);
+    } else {
+      const filtered = articles.filter(
+        (article) => article.ministry === ministryId
+      );
+      setFilteredArticles(filtered);
+    }
+  };
 
   const handleShareClose = () => setShowShare(false);
   const handleShareShow = () => setShowShare(true);
@@ -110,20 +105,9 @@ function Landing(props) {
     };
   };
 
-  //  // Function to toggle between light and dark mode
-  //  const toggleTheme = () => {
-  //   setTheme(theme === 'light' ? 'dark' : 'light');
-  // };
-
   return (
     <Container
       fluid
-      // style={{
-      //   backgroundColor: "black",
-      //   color: "white",
-      //   minHeight: "100vh",
-      //   padding: "12vh 3vh 12vh 3vh",
-      // }}
       style={{
         backgroundColor: theme === "light" ? "white" : "black",
         color: theme === "light" ? "black" : "white",
@@ -131,6 +115,7 @@ function Landing(props) {
         padding: "12vh 3vh 12vh 3vh",
       }}
     >
+      {/* Search */}
       <Stack>
         <InputGroup className="mb-3">
           <Form.Control
@@ -156,35 +141,46 @@ function Landing(props) {
             />
           </InputGroup.Text>
         </InputGroup>
-        <Button variant="secondary" size="sm" onClick={resetFilters}>
+        <Button
+          size="sm"
+          onClick={resetFilters}
+          style={{
+            width: "30%",
+            marginLeft: "35%",
+            backgroundColor: "rgb(30,30,30)",
+            border: "none",
+          }}
+        >
           Reset Filters
         </Button>
       </Stack>
       <br />
-      <Stack direction="horizontal" gap={3}>
-        <h2>Explore</h2>
 
-        {/* <Nav.Link
-          as={Link}
-          // to="/ministries"
-          style={{ color: "grey" }}
-          onClick={handleShareShow}
-          className="p-2 ms-auto"
-        >
-          See more
-        </Nav.Link> */}
-      </Stack>
-      <br />
+      {/* Explore Ministries */}
       <Stack
         direction="horizontal"
         gap={3}
-        style={{ overflowX: "auto", fontSize: "12px" }}
+        style={{
+          overflowX: "scroll",
+          fontSize: "12px",
+          overflowY: "hidden",
+          scrollbarWidth: "thin", // Use camelCase for property names
+          "&::-webkit-scrollbar": {
+            width: "1px",
+            backgroundColor: "#F5F5F5",
+            borderRadius: "3px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#ddd",
+            borderRadius: "3px",
+          },
+        }}
       >
         {Ministries.map((ministry) => (
           <Stack
             key={ministry.id}
             onClick={() => filterArticlesByMinistry(ministry.name)}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", fontFamily: "Martel Sans" }}
           >
             <Image
               src={ministry.img}
@@ -196,17 +192,21 @@ function Landing(props) {
           </Stack>
         ))}
       </Stack>
+
+      {/* Trending News */}
       <br />
       <Stack direction="horizontal" gap={3}>
-        <h2>Trending News</h2>
-        <p className="p-2 ms-auto"></p>
+        <h2 style={{ fontFamily: "Roboto Condensed", fontStyle: "normal" }}>
+          Trending News
+        </h2>
       </Stack>
+      <br />
+      {/* Articles */}
       <Row>
-        {loading ? ( // Render Skeleton while loading is true
+        {loading ? (
+          // Skeletons for loading
           <Stack spacing={1}>
-            {/* For variant="text", adjust the height via font-size */}
             <br />
-            {/* For other variants, adjust the size with `width` and `height` */}
             <br />
             <Skeleton
               variant="rectangular"
@@ -222,7 +222,6 @@ function Landing(props) {
               height={60}
             />
             <br />
-
             <Skeleton
               variant="circular"
               sx={{ bgcolor: "grey" }}
@@ -245,129 +244,128 @@ function Landing(props) {
             />
           </Stack>
         ) : filteredArticles.length === 0 ? (
+          // No articles found
           <>
             <br />
             <h3 className="display-3 text-center">
-              {" "}
-              <b>Oops!</b> <br />
-              No news yet for that ministry.
+              <b>Oops!</b> <br /> No news yet for that ministry.
             </h3>
             <p className="lead text-center">Try again later</p>
           </>
         ) : (
-          filteredArticles
-            .filter((article) =>
-              article.title.toLowerCase().includes(searchTerm)
-            )
-            .map((article) => (
-              <Col
-                style={{ height: " 45vh", marginBottom: "10%", padding: "0 0" }}
+          // Render articles
+          filteredArticles.map((article) => (
+            <Col
+              key={article.id}
+              md={4}
+              style={{
+                minHeight: " 45vh",
+                maxHeight: "50vh",
+                marginBottom: "7%",
+                padding: "0 10px",
+              }}
+            >
+              <Link
+                to={"/story/" + article.id}
+                state={{ data: article }}
+                style={{ color: "inherit", textDecoration: "none" }}
               >
-                <Link
-                  to={"/story/" + article.id}
-                  state={{ data: article }}
+                <Card
                   style={{
-                    color: "inherit",
-                    textDecoration: "none",
+                    height: "100%",
+                    minWidth: "38vh",
+                    border: "none",
+                    backgroundColor: theme === "light" ? "white" : "black",
+                    color: theme === "light" ? "black" : "white",
                   }}
                 >
-                  <Card
-                    flex={{ base: "auto", md: 1 }}
+                  {/* Card body */}
+                  <Card.Body
                     style={{
-                      height: "100%",
-                      minWidth: "38vh",
-                      border: "none",
+                      backgroundImage: `url("${article.imagesUrls[0]}")`,
+                      backgroundColor: theme === "light" ? "white" : "black",
+                      color: theme === "light" ? "black" : "white",
+                      backgroundSize: "cover",
+                      borderRadius: "18px",
+                    }}
+                  >
+                    <Card.Title
+                      style={{
+                        backgroundColor:
+                          theme === "light"
+                            ? "rgba(250,250,250,0.8)"
+                            : "rgba(50,50,50,0.5)",
+                        color: theme === "light" ? "black" : "white",
+                        borderRadius: "10px",
+                        padding: "1px",
+                      }}
+                    >
+                      <b>{article.title}</b>
+                    </Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      <Badge bg="danger">{article.ministry}</Badge>
+                    </Card.Subtitle>
+                  </Card.Body>
+                  <Card.Text
+                    style={{
+                      backgroundColor: theme === "light" ? "white" : "black",
+                      color: theme === "light" ? "black" : "white",
+                      fontSize: "17px",
+                      margin: "5px 5px",
+                    }}
+                  >
+                    {article.content.length > 50 ? (
+                      <div
+                        dangerouslySetInnerHTML={sanitizeHTML(
+                          `${article.content.substring(0, 50)}...`
+                        )}
+                      />
+                    ) : (
+                      <div
+                        dangerouslySetInnerHTML={sanitizeHTML(article.content)}
+                      />
+                    )}
+                  </Card.Text>
+                  {/* Author */}
+                  <Stack
+                    direction="horizontal"
+                    gap={2}
+                    style={{
                       backgroundColor: theme === "light" ? "white" : "black",
                       color: theme === "light" ? "black" : "white",
                     }}
-                    onClick={() => navigate("/story")}
                   >
-                    <Card.Body
-                      style={{
-                        backgroundImage: `url("${article.imagesUrls[0]}")`,
-                        backgroundColor: theme === "light" ? "white" : "black",
-                        color: theme === "light" ? "black" : "white",
-                        backgroundSize: "cover",
-                        borderRadius: "18px",
-                      }}
-                    >
-                      {console.log(article.imagesUrls[0])}
-                      <Card.Title
-                        style={{
-                          backgroundColor:
-                            theme === "light"
-                              ? "rgba(250,250,250,0.8)"
-                              : "rgba(50,50,50,0.5)",
-                          color: theme === "light" ? "black" : "white",
-                          borderRadius: "10px",
-                          padding: "1px",
-                        }}
-                      >
-                        <b>{article.title}</b>
-                      </Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted">
-                        <Badge bg="danger">
-                          {/* {authors[article.author]?.ministry} */}
-                          {article.ministry}
-                        </Badge>
-                      </Card.Subtitle>
-                    </Card.Body>
-                    <Card.Text
-                      style={{
-                        backgroundColor: theme === "light" ? "white" : "black",
-                        color: theme === "light" ? "black" : "white",
-                        fontSize: "14px",
-                        margin: "5px 5px",
-                      }}
-                    >
-                      {article.content.length > 100 ? (
-                        <div
-                          dangerouslySetInnerHTML={sanitizeHTML(
-                            `${article.content.substring(0, 100)}...`
-                          )}
-                        />
-                      ) : (
-                        <div
-                          dangerouslySetInnerHTML={sanitizeHTML(
-                            article.content
-                          )}
-                        />
-                      )}
-                    </Card.Text>
-                    <Stack
-                      direction="horizontal"
-                      gap={2}
-                      style={{
-                        backgroundColor: theme === "light" ? "white" : "black",
-                        color: theme === "light" ? "black" : "white",
-                      }}
-                    >
-                      <Image
-                        src={authors[article.author]?.photoURL}
-                        alt=""
-                        style={{ width: "3vh", height: "3vh" }}
-                        roundedCircle
-                      />
-                      {authors[article.author]?.firstName}{" "}
-                      {authors[article.author]?.lastName}
-                    </Stack>
-                    <Card.Text
-                      style={{
-                        backgroundColor: theme === "light" ? "white" : "black",
-                        color: theme === "light" ? "black" : "white",
-                        fontSize: "10px",
-                        margin: "2px 5px",
-                      }}
-                    >
-                      {article.createdAt &&
-                        article.createdAt.toDate().toLocaleString()}
-                    </Card.Text>
-                  </Card>
-                </Link>
-              </Col>
-            ))
+                    <Image
+                      src={authors[article.author]?.photoURL}
+                      alt=""
+                      style={{ width: "3vh", height: "3vh" }}
+                      roundedCircle
+                    />
+                    {authors[article.author]?.firstName}{" "}
+                    {authors[article.author]?.lastName}
+                  </Stack>
+                  {/* Date */}
+                  <Card.Text
+                    style={{
+                      backgroundColor: theme === "light" ? "white" : "black",
+                      color: theme === "light" ? "black" : "white",
+                      fontSize: "10px",
+                      margin: "2px 5px",
+                    }}
+                  >
+                    {" "}
+                    Posted on{" "}
+                    {article.createdAt &&
+                      article.createdAt.toDate().toLocaleString()}
+                  </Card.Text>
+                </Card>
+              </Link>
+            </Col>
+          ))
         )}
       </Row>
+
+      {/* Share Modal */}
       <Modal show={showShare} onHide={handleShareClose}>
         <Modal.Body
           style={{
@@ -378,8 +376,8 @@ function Landing(props) {
           <Stack gap={4} style={{ padding: "10px 20px" }}>
             {Ministries.map((ministry) => (
               <Badge
-                bg="success"
                 key={ministry.id}
+                bg="success"
                 onClick={() => filterArticlesByMinistry(ministry.name)}
               >
                 Ministry of {ministry.name}

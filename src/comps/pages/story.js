@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   Card,
   Stack,
@@ -19,8 +19,10 @@ import {
 } from "react-share";
 import useGetUser from "../hooks/useGetUser";
 import firebase from "../../firebase";
-// import useGetComments from "../hooks/useGetComments";
 import { useTheme } from "../template/themeContext";
+import getTimeSincePostCreation from "../template/getTimeSincePostCreation";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 function Story() {
   const location = useLocation();
@@ -32,11 +34,10 @@ function Story() {
   const [disliked, setDisliked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [dislikesCount, setDislikesCount] = useState(0);
-
   const author = useGetUser(data.author).docs;
-  // console.log("Author data:", author);
-
+  const { theme } = useTheme();
   const [user, setUser] = useState({});
+  const memoizedUser = useMemo(() => user, [user]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -62,23 +63,28 @@ function Story() {
     return () => authUnsubscribe();
   }, []);
 
-  const loadComments = async () => {
-    const commentsSnapshot = await firebase
-      .firestore()
-      .collection("Comments")
-      .orderBy("timestamp", "desc")
-      .where("article_id", "==", data.id)
-      .get();
-    const commentsData = commentsSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setComments(commentsData);
-  };
-
+  // console.log("user: " + user);
   useEffect(() => {
+    const loadComments = async () => {
+      try {
+        const commentsSnapshot = await firebase
+          .firestore()
+          .collection("Comments")
+          .orderBy("timestamp", "asc")
+          .where("article_id", "==", data.id)
+          .get();
+        const commentsData = commentsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setComments(commentsData);
+      } catch (error) {
+        console.error("Error loading comments:", error);
+      }
+    };
+
     loadComments();
-  }, []);
+  }, [data.id]);
 
   const handleComment = async (event) => {
     event.preventDefault();
@@ -92,8 +98,18 @@ function Story() {
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         });
         setNewComment("");
-        loadComments();
-        console.log(" comments : " + comments);
+        // Update comments state without fetching from Firestore again
+        setComments((prevComments) => [
+          ...prevComments,
+          {
+            id: Math.random().toString(36).substr(2, 9), // Generate temporary ID
+            article_id: data.id,
+            authorId: firebase.auth().currentUser.uid,
+            content: newComment,
+            author: user.firstName,
+            timestamp: new Date(),
+          },
+        ]);
       }
     } catch (error) {
       console.error("Error adding comment:", error);
@@ -145,7 +161,6 @@ function Story() {
         user_id: firebase.auth().currentUser.uid,
         liked: true,
       });
-      console.log("like status: " + liked);
     } catch (error) {
       console.error("Error liking article:", error);
       alert("Failed to like article. Please try again.");
@@ -159,7 +174,6 @@ function Story() {
         user_id: firebase.auth().currentUser.uid,
         liked: false,
       });
-      console.log("like status: " + liked);
     } catch (error) {
       console.error("Error disliking article:", error);
       alert("Failed to dislike article. Please try again.");
@@ -175,29 +189,13 @@ function Story() {
   const handleShareClose = () => setShowShare(false);
   const handleShareShow = () => setShowShare(true);
 
-  // const Comments = useGetComments().docs;
+  const createdAt = getTimeSincePostCreation(data.createdAt.seconds);
+  const [open, setOpen] = React.useState(false);
 
-  const { theme } = useTheme();
-
-  const [authors, setAuthors] = useState({});
-  useEffect(() => {
-    const unsubscribeAuthors = firebase
-      .firestore()
-      .collection("Users")
-      .onSnapshot((snapshot) => {
-        const authorsData = {};
-        snapshot.docs.forEach((doc) => {
-          authorsData[doc.id] = doc.data();
-        });
-        setAuthors(authorsData);
-      });
-
-    return () => {
-      unsubscribeAuthors();
-    };
-  });
-
-  
+  const imageData = data.imagesUrls.map((imageUrl) => ({
+    src: imageUrl, 
+    alt: "",
+  }));
 
   return (
     <div
@@ -219,7 +217,7 @@ function Story() {
           <h2 className="display-5">{data.title}</h2>
           <Stack direction="horizontal">
             <Image
-              src={authors[data.author]?.photoURL}
+              src={author.photoURL}
               alt=""
               style={{ width: "3vh", height: "3vh", marginRight: "5px" }}
               roundedCircle
@@ -234,11 +232,11 @@ function Story() {
               margin: "1px 5px",
             }}
           >
-            <span style={{ fontSize: "12px" }}>Posted at </span>
-            <br />
-            28 November 2023 . 2.4 Millions Readers
+            <span style={{ fontSize: "12px" }}>Posted </span>
+            {createdAt}
           </Card.Text>
           <br />
+          {/* <ImageGallery items={data.imagesUrls} /> */}
           <Stack
             style={{
               position: "relative",
@@ -250,6 +248,7 @@ function Story() {
             }}
           >
             <Image
+              onClick={() => setOpen(true)}
               src={data.imagesUrls[0]}
               alt={data.ministry}
               style={{
@@ -260,6 +259,12 @@ function Story() {
               rounded
             />
           </Stack>
+          {/* <button onClick={() => setOpen(true)}>Open Lightbox</button> */}
+          <Lightbox
+            open={open}
+            close={() => setOpen(false)}
+            slides={imageData}
+          />
           <Card.Text
             style={{
               backgroundColor: theme === "light" ? "white" : "black",
@@ -275,7 +280,6 @@ function Story() {
                   __html: expanded ? data.content : data.content.slice(0, 200),
                 }}
               />
-              {/* {expanded ? data.content : data.content.slice(0, 200)} */}
               {data.content.length > 200 && (
                 <Button
                   size="sm"
@@ -286,20 +290,13 @@ function Story() {
                   {expanded ? "Click to Collapse" : "Click to Expand"}
                 </Button>
               )}
-              {/* </p> */}
             </div>
           </Card.Text>
           <hr />
           {isLoggedIn ? (
             <div>
-              {/* Your code to display user data */}
-              <Stack
-                direction="horizontal"
-                gap={5}
-                // className="justify-content-center"
-              >
+              <Stack direction="horizontal" gap={5}>
                 <i className="bi bi-share" onClick={handleShareShow}></i>
-                {/* Like button */}
                 <Stack
                   direction="horizontal"
                   gap={3}
@@ -317,7 +314,6 @@ function Story() {
                     ></i>
                   )}
                   <span>{likesCount}</span>
-                  {/* Dislike button */}
                   {disliked ? (
                     <i
                       className="bi bi-hand-thumbs-down-fill"
@@ -370,7 +366,7 @@ function Story() {
               }}
             >
               <Image
-                src={authors[comment.authorId]?.photoURL}
+                src={author.photoURL}
                 style={{
                   width: "6vh",
                   height: "6vh",
@@ -403,6 +399,7 @@ function Story() {
             color: theme === "light" ? "black" : "white",
           }}
         >
+          {/* Share buttons */}
           <h4 className="display-6 text-center">
             Share this with your social Community!
             <br />
@@ -411,7 +408,7 @@ function Story() {
               <Col>
                 <FacebookShareButton
                   url={`https://zanis-pro.web.app/story/${data.id}`}
-                  quote="ZANIS.To Inform, Educate and Entertain the Nation!"
+                  quote="Ministry of Information and Media. To Inform, Educate and Entertain the Nation!"
                 >
                   <i className="bi bi-facebook"></i>
                 </FacebookShareButton>
@@ -419,7 +416,7 @@ function Story() {
               <Col>
                 <WhatsappShareButton
                   url={`https://zanis-pro.web.app/story/${data.id}`}
-                  title="ZANIS "
+                  title="Ministry of Information and Media. "
                   separator="To Inform, Educate and Entertain the Nation! "
                 >
                   <i className="bi bi-whatsapp"></i>
@@ -427,9 +424,9 @@ function Story() {
               </Col>
               <Col>
                 <TwitterShareButton
-                  title="ZANIS"
+                  title="Ministry of Information and Media"
                   url={`https://zanis-pro.web.app/story/${data.id}`}
-                  via={"ZANIS. To Inform, Educate and Entertain the Nation"}
+                  via={"Ministry of Information and Media. To Inform, Educate and Entertain the Nation"}
                 >
                   <i className="bi bi-twitter"></i>
                 </TwitterShareButton>
@@ -437,8 +434,8 @@ function Story() {
               <Col>
                 <TelegramShareButton
                   url={`https://zanis-pro.web.app/story/${data.id}`}
-                  title="ZANIS"
-                  description="ZANIS. To Inform, Educate and Entertain the Nation"
+                  title="Ministry of Information and Media"
+                  description="Ministry of Information and Media. To Inform, Educate and Entertain the Nation"
                 >
                   <i className="bi bi-telegram"></i>
                 </TelegramShareButton>
