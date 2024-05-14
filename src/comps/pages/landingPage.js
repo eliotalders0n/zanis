@@ -18,6 +18,7 @@ import firebase from "../../firebase";
 import DOMPurify from "dompurify";
 import { useTheme } from "../template/themeContext";
 import useGetMinistries from "../hooks/useGetMinistries";
+import { BorderColor } from "@mui/icons-material";
 
 function Landing() {
   const navigate = useNavigate();
@@ -109,8 +110,8 @@ function Landing() {
     <Container
       fluid
       style={{
-        backgroundColor: theme === "light" ? "white" : "black",
-        color: theme === "light" ? "black" : "white",
+        backgroundColor: theme === "light" ? "white" : "#111111",
+        color: theme === "light" ? "#111111" : "white",
         minHeight: "100vh",
         padding: "12vh 3vh 12vh 3vh",
       }}
@@ -122,44 +123,29 @@ function Landing() {
             placeholder="Search"
             aria-label="Search"
             aria-describedby="basic-addon2"
-            style={{ backgroundColor: "", color: "black", border: "none" }}
+            style={{ backgroundColor: "rgb(30,30,30)", color: "white", border: "none" }}
             onChange={handleSearch}
           />
-          <InputGroup.Text
-            id="basic-addon2"
-            style={{
-              backgroundColor: "",
-              color: "white",
-              borderRightColor: "black",
-              borderRight: "1px solid",
-            }}
-          >
-            <img
-              src="assets/search.png"
-              style={{ width: "30px" }}
-              alt="search"
-            />
-          </InputGroup.Text>
-        </InputGroup>
-        <Button
+         <Button
           size="sm"
           onClick={resetFilters}
           style={{
-            width: "30%",
-            marginLeft: "35%",
+            width: "20%",
             backgroundColor: "rgb(30,30,30)",
             border: "none",
           }}
         >
-          Reset Filters
+          Reset
         </Button>
+        </InputGroup>
+        
       </Stack>
       <br />
 
       {/* Explore Ministries */}
       <Stack
         direction="horizontal"
-        gap={3}
+        gap={2}
         style={{
           overflowX: "scroll",
           fontSize: "12px",
@@ -180,15 +166,18 @@ function Landing() {
           <Stack
             key={ministry.id}
             onClick={() => filterArticlesByMinistry(ministry.name)}
-            style={{ cursor: "pointer", fontFamily: "Martel Sans" }}
+            style={{ cursor: "pointer", fontFamily: "Martel Sans"}}
           >
             <Image
               src={ministry.img}
               alt=""
-              style={{ width: "6vh" }}
+              style={{ width: "6vh", display: "block", 
+              margin: "auto" }}
               roundedCircle
             />
-            {ministry.name}
+            <p style={{width: "80px", textAlign: "center"}}>
+          {ministry.name.substring(0, 10)}
+            </p>
           </Stack>
         ))}
       </Stack>
@@ -274,19 +263,20 @@ function Landing() {
                   style={{
                     height: "100%",
                     minWidth: "38vh",
-                    border: "none",
-                    backgroundColor: theme === "light" ? "white" : "black",
-                    color: theme === "light" ? "black" : "white",
+                    boxShadow: "0px 10px 10px rgba(0,0,0,0.5)",
+                    backgroundColor: theme === "light" ? "white" : "#111111",
+                    color: theme === "light" ? "#111111" : "white",
+                    borderRadius: "0 0 18px 18px"
                   }}
                 >
                   {/* Card body */}
                   <Card.Body
                     style={{
                       backgroundImage: `url("${article.imagesUrls[0]}")`,
-                      backgroundColor: theme === "light" ? "white" : "black",
-                      color: theme === "light" ? "black" : "white",
+                      backgroundColor: theme === "light" ? "white" : "#111111",
+                      color: theme === "light" ? "#111111" : "white",
                       backgroundSize: "cover",
-                      borderRadius: "18px",
+                      borderRadius: "18px 18px 0 0",
                     }}
                   >
                     <Card.Title
@@ -295,12 +285,12 @@ function Landing() {
                           theme === "light"
                             ? "rgba(250,250,250,0.8)"
                             : "rgba(50,50,50,0.5)",
-                        color: theme === "light" ? "black" : "white",
+                        color: theme === "light" ? "#111111" : "white",
                         borderRadius: "10px",
-                        padding: "1px",
+                        padding: "8px",
                       }}
                     >
-                      <b>{article.title}</b>
+                      <b>{article.title.substring(0, 55)}</b>
                     </Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
                       <Badge bg="danger">{article.ministry}</Badge>
@@ -308,16 +298,18 @@ function Landing() {
                   </Card.Body>
                   <Card.Text
                     style={{
-                      backgroundColor: theme === "light" ? "white" : "black",
-                      color: theme === "light" ? "black" : "white",
+                      backgroundColor: theme === "light" ? "white" : "#111111",
+                      color: theme === "light" ? "#111111" : "white",
                       fontSize: "17px",
                       margin: "5px 5px",
+                      padding: "10px",
+                      height: "6vh"
                     }}
                   >
-                    {article.content.length > 50 ? (
+                    {article.content.length > 55 ? (
                       <div
                         dangerouslySetInnerHTML={sanitizeHTML(
-                          `${article.content.substring(0, 50)}...`
+                          `${article.content.substring(0, 55)}...`
                         )}
                       />
                     ) : (
@@ -331,14 +323,14 @@ function Landing() {
                     direction="horizontal"
                     gap={2}
                     style={{
-                      backgroundColor: theme === "light" ? "white" : "black",
-                      color: theme === "light" ? "black" : "white",
+                      backgroundColor: theme === "light" ? "white" : "#111111",
+                      color: theme === "light" ? "#111111" : "white", paddingLeft: "10px"
                     }}
                   >
                     <Image
                       src={authors[article.author]?.photoURL}
                       alt=""
-                      style={{ width: "3vh", height: "3vh" }}
+                      style={{ width: "3vh", height: "3vh",  }}
                       roundedCircle
                     />
                     {authors[article.author]?.firstName}{" "}
@@ -347,10 +339,11 @@ function Landing() {
                   {/* Date */}
                   <Card.Text
                     style={{
-                      backgroundColor: theme === "light" ? "white" : "black",
-                      color: theme === "light" ? "black" : "white",
+                      backgroundColor: theme === "light" ? "white" : "#111111",
+                      color: theme === "light" ? "#111111" : "white",
                       fontSize: "10px",
                       margin: "2px 5px",
+                      paddingLeft: "15px"
                     }}
                   >
                     {" "}
@@ -369,8 +362,8 @@ function Landing() {
       <Modal show={showShare} onHide={handleShareClose}>
         <Modal.Body
           style={{
-            backgroundColor: theme === "light" ? "white" : "black",
-            color: theme === "light" ? "black" : "white",
+            backgroundColor: theme === "light" ? "white" : "#111111",
+            color: theme === "light" ? "#111111" : "white",
           }}
         >
           <Stack gap={4} style={{ padding: "10px 20px" }}>

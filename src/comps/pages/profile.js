@@ -199,8 +199,8 @@ const Profile = () => {
     <Container
       fluid
       style={{
-        backgroundColor: theme === "light" ? "white" : "black",
-        color: theme === "light" ? "black" : "white",
+        backgroundColor: theme === "light" ? "white" : "#111111",
+        color: theme === "light" ? "#111111" : "white",
         minHeight: "100vh",
         padding: "12vh 2vh 12vh 2vh",
       }}
@@ -212,8 +212,8 @@ const Profile = () => {
         onClick={toggleTheme}
         className="p-2 ms-auto"
         size="small"
-        style={{ backgroundColor: theme === "light" ? "black" : "white",
-        color: theme === "light" ? "white" : "black", }}
+        style={{ backgroundColor: theme === "light" ? "#111111" : "white",
+        color: theme === "light" ? "white" : "#111111", }}
       >
         {theme === "light" ? "Dark Mode" : "Light Mode"}
       </Button>
@@ -297,8 +297,8 @@ const Profile = () => {
       </p>
       
       <Stack>
-      <Button variant="contained" size="small" style={{width: "40%", marginLeft: "30%", backgroundColor: theme === "light" ? "black" : "white",
-        color: theme === "light" ? "white" : "black", }}  onClick={() => Logout()}>
+      <Button variant="contained" size="small" style={{width: "40%", marginLeft: "30%", backgroundColor: theme === "light" ? "#111111" : "white",
+        color: theme === "light" ? "white" : "#111111", }}  onClick={() => Logout()}>
           Logout
         </Button>
       <br/>
@@ -323,8 +323,8 @@ const Profile = () => {
             required
           />
           <br />
-          <Button type="submit" disabled={submitting} variant="contained" size="lg" style={{backgroundColor: theme === "light" ? "black" : "white",
-        color: theme === "light" ? "white" : "black", }}>
+          <Button type="submit" disabled={submitting} variant="contained" size="lg" style={{backgroundColor: theme === "light" ? "#111111" : "white",
+        color: theme === "light" ? "white" : "#111111", }}>
             {submitting ? "Submitting..." : "Submit"}
           </Button>
         </Form>
@@ -333,24 +333,24 @@ const Profile = () => {
         <Modal.Header
           closeButton
           style={{
-            backgroundColor: theme === "light" ? "white" : "black",
-            color: theme === "light" ? "black" : "white",
+            backgroundColor: theme === "light" ? "white" : "#111111",
+            color: theme === "light" ? "#111111" : "white",
           }}
         >
           <Modal.Title>Feedback submitted successfully, thank you.</Modal.Title>
         </Modal.Header>
         <Modal.Footer
           style={{
-            backgroundColor: theme === "light" ? "white" : "black",
-            color: theme === "light" ? "black" : "white",
+            backgroundColor: theme === "light" ? "white" : "#111111",
+            color: theme === "light" ? "#111111" : "white",
           }}
         >
           <Button
             variant="secondary"
             onClick={() => setShowModal(false)}
             style={{
-              backgroundColor: theme === "light" ? "white" : "black",
-              color: theme === "light" ? "black" : "white",
+              backgroundColor: theme === "light" ? "white" : "#111111",
+              color: theme === "light" ? "#111111" : "white",
             }}
           >
             Close

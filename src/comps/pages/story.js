@@ -23,6 +23,7 @@ import { useTheme } from "../template/themeContext";
 import getTimeSincePostCreation from "../template/getTimeSincePostCreation";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+// import useFetchRelatedArticles from "../hooks/useFetchRelatedArticles";
 
 function Story() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function Story() {
   const [user, setUser] = useState({});
   const memoizedUser = useMemo(() => user, [user]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [relatedArticles, setRelatedArticles] = useState([]);
 
   useEffect(() => {
     const authUnsubscribe = firebase
@@ -197,11 +199,39 @@ function Story() {
     alt: "",
   }));
 
+
+  useEffect(() => {
+    const fetchRelatedArticles = async () => {
+      try {
+        const relatedArticlesQuery = firebase
+          .firestore()
+          .collection("Articles")
+          .where("ministry", "==", data.ministry)
+          .where("id", "!=", data.id)
+          .where("video", "==", "false")
+          .limit(5);
+
+        const relatedArticlesSnapshot = await relatedArticlesQuery.get();
+        const relatedArticles = relatedArticlesSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setRelatedArticles(relatedArticles);
+      } catch (error) {
+        console.error("Error fetching related articles:", error);
+      }
+    };
+
+    fetchRelatedArticles();
+  }, [data.id, data.ministry, data.title]);
+
+  console.log("articles are : " + relatedArticles)
   return (
     <div
       style={{
-        backgroundColor: theme === "light" ? "white" : "black",
-        color: theme === "light" ? "black" : "white",
+        backgroundColor: theme === "light" ? "white" : "#111111",
+        color: theme === "light" ? "#111111" : "white",
         minHeight: "100vh",
         padding: "12vh 0",
       }}
@@ -209,8 +239,8 @@ function Story() {
       <div>
         <Stack
           style={{
-            backgroundColor: theme === "light" ? "white" : "black",
-            color: theme === "light" ? "black" : "white",
+            backgroundColor: theme === "light" ? "white" : "#111111",
+            color: theme === "light" ? "#111111" : "white",
             margin: "1vh 3vh",
           }}
         >
@@ -219,15 +249,15 @@ function Story() {
             <Image
               src={author.photoURL}
               alt=""
-              style={{ width: "3vh", height: "3vh", marginRight: "5px" }}
+              style={{ width: "1vh", height: "1vh", marginRight: "5px" }}
               roundedCircle
             />
             {author.firstName} {author.lastName}
           </Stack>
           <Card.Text
             style={{
-              backgroundColor: theme === "light" ? "white" : "black",
-              color: theme === "light" ? "black" : "white",
+              backgroundColor: theme === "light" ? "white" : "#111111",
+              color: theme === "light" ? "#111111" : "white",
               fontSize: "14px",
               margin: "1px 5px",
             }}
@@ -267,8 +297,8 @@ function Story() {
           />
           <Card.Text
             style={{
-              backgroundColor: theme === "light" ? "white" : "black",
-              color: theme === "light" ? "black" : "white",
+              backgroundColor: theme === "light" ? "white" : "#111111",
+              color: theme === "light" ? "#111111" : "white",
               fontSize: "16px",
               margin: "1px 5px",
             }}
@@ -361,8 +391,8 @@ function Story() {
               direction="horizontal"
               style={{
                 padding: "5px 12px 5px 5px",
-                backgroundColor: theme === "light" ? "white" : "black",
-                color: theme === "light" ? "black" : "white",
+                backgroundColor: theme === "light" ? "white" : "#111111",
+                color: theme === "light" ? "#111111" : "white",
               }}
             >
               <Image
@@ -391,12 +421,38 @@ function Story() {
             </Stack>
           ))}
         </Stack>
+        
+        <div>
+        <h2 className="text-center mb-4">Related Articles</h2>
+        <Row xs={1} md={2} lg={3} className="g-4">
+          {relatedArticles.map((article) => (
+            <Col key={article.id}>
+              <Card
+                bg={theme === "light" ? "light" : "dark"}
+                text={theme === "dark" ? "light" : "dark"}
+              >
+                <Card.Img variant="top" src={article.imagesUrls[0]} />
+                <Card.Body>
+                  <Card.Title>{article.title}</Card.Title>
+                  <Card.Text>{article.content.slice(0, 100)}...</Card.Text>
+                  <Button
+                    variant={theme === "light" ? "primary" : "outline-primary"}
+                    href={`/story/${article.id}`}
+                  >
+                    Read More
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
       </div>
       <Modal show={showShare} onHide={handleShareClose}>
         <Modal.Body
           style={{
-            backgroundColor: theme === "light" ? "white" : "black",
-            color: theme === "light" ? "black" : "white",
+            backgroundColor: theme === "light" ? "white" : "#111111",
+            color: theme === "light" ? "#111111" : "white",
           }}
         >
           {/* Share buttons */}
@@ -471,8 +527,8 @@ function Story() {
         </Modal.Body>
         <Modal.Footer
           style={{
-            backgroundColor: theme === "light" ? "white" : "black",
-            color: theme === "light" ? "black" : "white",
+            backgroundColor: theme === "light" ? "white" : "#111111",
+            color: theme === "light" ? "#111111" : "white",
           }}
         >
           <Button variant="dark" onClick={handleShareClose}>

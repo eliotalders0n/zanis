@@ -61,15 +61,13 @@ const GoogleSignInButton = () => {
     >
       <Stack
         style={{
-          border: "1px solid",
-          borderColor: "grey",
           padding: "12px",
           color: "white",
           borderRadius: "10px",
-          height: "70vh",
+          height: "50vh",
         }}
       >
-        <Stack style={{ marginTop: "20vh" }}>
+        <Stack style={{ marginTop: "30vh" }}>
           <h2 className="display-2 text-center">
             <i className="bi bi-google"></i>
           </h2>

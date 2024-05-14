@@ -5,6 +5,7 @@
   },
   "hosting": {
     "public": "build",
+    "site" : "zanis-app",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -16,5 +17,8 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

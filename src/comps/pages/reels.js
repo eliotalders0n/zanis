@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Badge, Stack, Container, Button } from "react-bootstrap";
-import { Skeleton } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 import "./reels.css";
 import { useTheme } from "../template/themeContext";
 import useGetReels from "../hooks/useGetReels";
@@ -51,12 +51,22 @@ const ReelCard = () => {
       fluid
       className="reels-container"
       style={{
-        backgroundColor: theme === "light" ? "white" : "black",
-        color: theme === "light" ? "black" : "white",
+        backgroundColor: theme === "light" ? "white" : "#111111",
+        color: theme === "light" ? "#111111" : "white",
         minHeight: "100vh",
-        padding: "12vh 3vh 12vh 3vh",
+        padding: "10vh 3vh 10vh 3vh",
       }}
     >
+      <h2
+        style={{
+          fontFamily: "Roboto Condensed",
+          fontStyle: "normal",
+          marginLeft: "7vh",
+          textAlign: "center",
+        }}
+      >
+        Videos
+      </h2>
       {loading ? (
         <Stack spacing={1}>
           <Skeleton
@@ -65,9 +75,18 @@ const ReelCard = () => {
             style={{ width: "100%", height: "60vh" }}
           />
           <br />
-          <Skeleton variant="circular" sx={{ bgcolor: "grey" }} width={40} height={40} />
+          <Skeleton
+            variant="circular"
+            sx={{ bgcolor: "grey" }}
+            width={40}
+            height={40}
+          />
           <br />
-          <Skeleton variant="rectangular" sx={{ bgcolor: "grey" }} style={{ width: "100%", height: "5vh" }} />
+          <Skeleton
+            variant="rectangular"
+            sx={{ bgcolor: "grey" }}
+            style={{ width: "100%", height: "5vh" }}
+          />
         </Stack>
       ) : Reel.length === 0 ? (
         <>
@@ -85,30 +104,36 @@ const ReelCard = () => {
             key={article.id}
             className="reels-card"
             style={{
-              backgroundColor: theme === "light" ? "white" : "black",
-              color: theme === "light" ? "black" : "white",
+              backgroundColor: theme === "light" ? "white" : "#111111",
+              color: theme === "light" ? "#111111" : "white",
+              boxShadow: "0px 10px 10px rgba(0,0,0,0.9)",
+              paddingBottom: "10px",
             }}
           >
             <Card.Body
               className="reels-card-body"
               style={{
-                backgroundColor: theme === "light" ? "white" : "black",
-                color: theme === "light" ? "black" : "white",
+                backgroundColor: theme === "light" ? "white" : "#111111",
+                color: theme === "light" ? "#111111" : "white",
               }}
             >
               <Card.Title
                 style={{
-                  backgroundColor: theme === "light" ? "white" : "black",
-                  color: theme === "light" ? "black" : "white",
+                  backgroundColor: theme === "light" ? "white" : "#111111",
+                  color: theme === "light" ? "#111111" : "white",
                 }}
               ></Card.Title>
-              <video src={article.imagesUrls} style={{ width: "100%", height: "80vh", borderRadius: "10px" }} controls />
+              <video
+                src={article.imagesUrls}
+                style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+                controls
+              />
             </Card.Body>
             <Card.Text
               className="reels-card-text"
               style={{
-                backgroundColor: theme === "light" ? "white" : "black",
-                color: theme === "light" ? "black" : "white",
+                backgroundColor: theme === "light" ? "white" : "#111111",
+                color: theme === "light" ? "#111111" : "white",
               }}
             >
               {article.title} <br />
@@ -117,18 +142,28 @@ const ReelCard = () => {
             <Card.Text
               className="reels-card-text"
               style={{
-                backgroundColor: theme === "light" ? "white" : "black",
-                color: theme === "light" ? "black" : "white",
+                backgroundColor: theme === "light" ? "white" : "#111111",
+                color: theme === "light" ? "#111111" : "white",
               }}
             >
-              <Stack direction="horizontal" gap={2} style={{
-                backgroundColor: theme === "light" ? "white" : "black",
-                color: theme === "light" ? "black" : "white",
-              }}>
-                <img src={authors[article.author]?.photoURL} alt="" style={{ width: "3vh", height: "3vh" }} roundedCircle />
-                {authors[article.author]?.firstName} {authors[article.author]?.lastName}
+              <Stack
+                direction="horizontal"
+                gap={2}
+                style={{
+                  backgroundColor: theme === "light" ? "white" : "#111111",
+                  color: theme === "light" ? "#111111" : "white",
+                }}
+              >
+                <img
+                  src={authors[article.author]?.photoURL}
+                  alt=""
+                  style={{ width: "3vh", height: "3vh" }}
+                  roundedCircle
+                />
+                {authors[article.author]?.firstName}{" "}
+                {authors[article.author]?.lastName}
               </Stack>
-            </Card.Text>           
+            </Card.Text>
           </Card>
         ))
       )}

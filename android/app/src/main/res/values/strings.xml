@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">zanis</string>
+    <string name="title_activity_main">zanis</string>
+    <string name="package_name">zanis.web.app</string>
+    <string name="custom_url_scheme">zanis.web.app</string>
+</resources>

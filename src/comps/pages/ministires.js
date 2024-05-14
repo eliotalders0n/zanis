@@ -8,7 +8,7 @@ const Ministries = ({ title, date, postedBy, imageUrl }) => {
   return (
     <div
       style={{
-        backgroundColor: "black",
+        backgroundColor: "#111111",
         color: "white",
         height: "auto",
         padding: "12vh 0",

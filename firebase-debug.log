@@ -1,0 +1,52 @@
+[debug] [2024-05-14T23:47:44.331Z] ----------------------------------------------------------------------
+[debug] [2024-05-14T23:47:44.333Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\User\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2024-05-14T23:47:44.333Z] CLI Version:   13.4.0
+[debug] [2024-05-14T23:47:44.333Z] Platform:      win32
+[debug] [2024-05-14T23:47:44.333Z] Node Version:  v18.17.1
+[debug] [2024-05-14T23:47:44.333Z] Time:          Wed May 15 2024 01:47:44 GMT+0200 (Central European Summer Time)
+[debug] [2024-05-14T23:47:44.334Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-05-14T23:47:44.383Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-05-14T23:47:44.383Z] > authorizing via signed-in user (sandramasiwa1@gmail.com)
+[debug] [2024-05-14T23:47:44.383Z] [iam] checking project zanis-app for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2024-05-14T23:47:44.384Z] > refreshing access token with scopes: []
+[debug] [2024-05-14T23:47:44.385Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-05-14T23:47:44.385Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-14T23:47:45.492Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-05-14T23:47:45.492Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-05-14T23:47:45.509Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/zanis-app:testIamPermissions [none]
+[debug] [2024-05-14T23:47:45.509Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/zanis-app:testIamPermissions x-goog-quota-user=projects/zanis-app
+[debug] [2024-05-14T23:47:45.510Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/zanis-app:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-05-14T23:47:47.953Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/zanis-app:testIamPermissions 200
+[debug] [2024-05-14T23:47:47.953Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/zanis-app:testIamPermissions {"permissions":["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-05-14T23:47:47.953Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/zanis-app [none]
+[debug] [2024-05-14T23:47:49.142Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/zanis-app 200
+[debug] [2024-05-14T23:47:49.142Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/zanis-app {"projectId":"zanis-app","projectNumber":"141780524287","displayName":"zanis-app","name":"projects/zanis-app","resources":{"hostingSite":"zanis-app","storageBucket":"zanis-app.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_98c1d005-8272-4468-9348-fc408d49c946"}
+[info] 
+[info] === Deploying to 'zanis-app'...
+[info] 
+[info] i  deploying storage, firestore, hosting 
+[info] i  storage: ensuring required API firebasestorage.googleapis.com is enabled... 
+[debug] [2024-05-14T23:47:49.146Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/zanis-app/services/firebasestorage.googleapis.com [none]
+[debug] [2024-05-14T23:47:49.146Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/zanis-app/services/firebasestorage.googleapis.com x-goog-quota-user=projects/zanis-app
+[debug] [2024-05-14T23:47:51.851Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/zanis-app/services/firebasestorage.googleapis.com 200
+[debug] [2024-05-14T23:47:51.851Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/zanis-app/services/firebasestorage.googleapis.com [omitted]
+[info] +  storage: required API firebasestorage.googleapis.com is enabled 
+[debug] [2024-05-14T23:47:51.851Z] >>> [apiv2][query] GET https://firebasestorage.googleapis.com/v1alpha/projects/zanis-app/defaultBucket [none]
+[debug] [2024-05-14T23:47:53.321Z] <<< [apiv2][status] GET https://firebasestorage.googleapis.com/v1alpha/projects/zanis-app/defaultBucket 200
+[debug] [2024-05-14T23:47:53.321Z] <<< [apiv2][body] GET https://firebasestorage.googleapis.com/v1alpha/projects/zanis-app/defaultBucket {"name":"projects/zanis-app/defaultBucket","location":"US","bucket":{"name":"projects/zanis-app/buckets/zanis-app.appspot.com"}}
+[info] i  firebase.storage: checking storage.rules for compilation errors... 
+[debug] [2024-05-14T23:47:53.323Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/zanis-app:test [none]
+[debug] [2024-05-14T23:47:53.324Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/zanis-app:test [omitted]
+[debug] [2024-05-14T23:47:54.797Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/zanis-app:test 200
+[debug] [2024-05-14T23:47:54.798Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/zanis-app:test {}
+[info] +  firebase.storage: rules file storage.rules compiled successfully 
+[info] i  firestore: reading indexes from firestore.indexes.json... 
+[info] i  cloud.firestore: checking firestore.rules for compilation errors... 
+[debug] [2024-05-14T23:47:54.800Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/zanis-app:test [none]
+[debug] [2024-05-14T23:47:54.800Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/zanis-app:test [omitted]
+[debug] [2024-05-14T23:47:56.383Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/zanis-app:test 200
+[debug] [2024-05-14T23:47:56.383Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/zanis-app:test {}
+[info] +  cloud.firestore: rules file firestore.rules compiled successfully 
+[debug] [2024-05-14T23:47:56.385Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/zanis-app/versions [none]
+[debug] [2024-05-14T23:47:56.386Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/zanis-app/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
